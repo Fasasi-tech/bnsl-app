@@ -16,6 +16,7 @@ const User = () => {
     return <p>something went wrong!</p>
   }
 
+  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -42,7 +43,7 @@ const User = () => {
                 <TableCell className='py-8'>
                   <Avatar>
                     <AvatarImage src={i?.image?.url} alt='avatar'/>
-                    <AvatarFallback>{`${i?.firstName?.slice(0,1)} ${i?.lastName?.slice(0,1)}`}</AvatarFallback>
+                    <AvatarFallback>{`${i?.firstName?.toUpperCase().slice(0,1)} ${i?.lastName?.toUpperCase().slice(0,1)}`}</AvatarFallback>
                   </Avatar>
                 </TableCell>
                 <TableCell className='py-8'>{i.firstName}</TableCell>

@@ -10,15 +10,17 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Button } from '@/components/ui/button';
 import classNames from 'classnames';
 import { useStateContext } from '../../context/ContextProvider'
-
+import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux'
 
 const Notifications = () => {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
-  
+    const router = useRouter();
+    const {userInfo} = useSelector((state) => state.auth)
 
     const ITEMS_PER_PAGE= 10;
-    const { data: notifications, refetch, isLoading, isFetching, isError } = useNotificationsQuery({ page, limit: ITEMS_PER_PAGE, search }, { refetchOnMountOrArgChange: true });
+    const { data: notifications, refetch, isLoading, isFetching, error } = useNotificationsQuery({ page, limit: ITEMS_PER_PAGE, search }, { refetchOnMountOrArgChange: true });
     const { setNotificationCount } = useStateContext();
     useEffect(() => {
         // Listen for new notifications
@@ -36,14 +38,21 @@ const Notifications = () => {
     }, [refetch, setNotificationCount]);
 
    
+    useEffect(() => {
+         if (!userInfo){
+            router.push('/')
+        }
+      }, [router, userInfo]);
 
     if (isLoading) {
         return <Loader />;
     }
 
-    if (isError) {
-        return <div className='font-bold text-green-300'>Something went wrong!</div>;
+    if (error) {
+        return <div className='font-bold text-green-300'>{error?.data?.message}</div>;
     }
+
+    console.log(error?.data?.message, 'error')
 
     const result = notifications?.data?.user?.notifications;
     const totalPages= Math.ceil(notifications?.data?.user?.result/ ITEMS_PER_PAGE);

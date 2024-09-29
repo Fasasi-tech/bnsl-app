@@ -17,7 +17,7 @@ const page = ({params}) => {
     }
 
     if (error || vendorError){
-        return <p className='font-bold text-green-300'>error</p>
+        return <p className='font-bold text-green-300'>error.data.message</p>
     }
 
     if (!vendor.data.user){

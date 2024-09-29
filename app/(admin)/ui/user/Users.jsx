@@ -27,11 +27,15 @@ const Users = () => {
     const [sort, setSort] = useState('')
     const [search,  setSearch] = useState('')
     const [active, setActive] = useState(undefined);
-    const {data:users, isLoading, isFetching} = useListUsersQuery({ page, limit: ITEMS_PER_PAGE, role, sort, search, active})
-    const [exportUser, {isLoading:loadExcel, error, data} ] = useExportUserMutation()
+    const {data:users, isLoading, isFetching, error} = useListUsersQuery({ page, limit: ITEMS_PER_PAGE, role, sort, search, active})
+    const [exportUser, {isLoading:loadExcel,  data} ] = useExportUserMutation()
 
     if (isLoading){
         return <Loader/>
+    }
+
+    if (error){
+        return ( <p>{error?.data?.message}</p>)
     }
     
     const handleClick = async () => {
@@ -158,7 +162,7 @@ const Users = () => {
             
         </div>
        
-    <Table>
+        <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead className='w-1/3'>User</TableHead>
@@ -175,7 +179,7 @@ const Users = () => {
                         <div className='flex items-center gap-2'>
                             <Avatar>
                             <AvatarImage src={i?.image?.url} alt='avatar'/>
-                            <AvatarFallback>{`${i?.firstName?.slice(0,1)}${i?.lastName?.slice(0,1)}`}</AvatarFallback>
+                            <AvatarFallback>{`${i?.firstName?.toUpperCase().slice(0,1)}${i?.lastName?.toUpperCase().slice(0,1)}`}</AvatarFallback>
                             </Avatar>
                             <div>
                                     <p className='text-gray-500  font-medium'>{`${i.firstName} ${i.lastName}`}</p>

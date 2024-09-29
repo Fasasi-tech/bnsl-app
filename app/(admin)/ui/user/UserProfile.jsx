@@ -60,7 +60,7 @@ const UserProfile = ({data}) => {
       
   return (
     <div className='relative'>
-   < div className=" rounded-lg shadow-md bg-white w-full mb-4 h-[20rem] ">
+   < div className=" rounded-lg shadow-md bg-white dark:bg-slate-800 w-full mb-4 h-[20rem] ">
    <div className='flex flex-col  items-center '>
         <div className=" bg-cover bg-center">
             <Image

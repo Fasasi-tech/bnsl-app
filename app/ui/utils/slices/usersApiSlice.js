@@ -31,6 +31,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
         query:(data) =>`${URL}/users/stat`,
         providesTags:['getStat']    
     }),
+    userprofile:builder.query({
+        query:(data) =>`${URL}/users/profile`,
+        providesTags:['userprofile']    
+    }),
+    rfqResponses:builder.query({
+        query:(data) =>`${URL}/rfq/response`,
+        providesTags:['rfqResponses']    
+    }),
     analytics: builder.query({
         query:(data) => `${URL}/users/analytics`,
         providesTags:['getAnalytics']
@@ -47,6 +55,11 @@ export const userApiSlice = apiSlice.injectEndpoints({
         query:(data) => `${URL}/product/category`,
         providesTags:['polar']
     }),
+    rfqvendor: builder.query({
+        query:(data) => `${URL}/rfq`,
+        providesTags:['rfq-vendor']
+    }),
+    
     vendorHistory:builder.query({
         query: ({page, limit, sort, search}) => {
             const params = new URLSearchParams();
@@ -63,14 +76,37 @@ export const userApiSlice = apiSlice.injectEndpoints({
         query:(id) => `${URL}/users/${id}`,
         providesTags:['singleUser']
     }),
+
+    singleRfqResponse: builder.query({
+        query:(id) => `${URL}/rfq/response/${id}`,
+        providesTags:['singleRfqResponse']
+    }),
    
     singleVendor:builder.query({
         query:(id) =>`${URL}/vendors/${id}`,
         providesTags:['singleVendor']
     }),
+    getVendorProduct:builder.query({
+        query:({page, limit, category, search}) => {
+            const params = new URLSearchParams();
+            if (page) params.append('page', page);
+            if (limit) params.append('limit', limit);
+            if (search) params.append('search', search);
+            if (category) params.append('category', category);
+            return `${URL}/product/vendor-product?${params.toString()}`},
+            providesTags:['vendor-product']
+    }),
     singleVendorHistory:builder.query({
         query:(id)=>`${URL}/vendors/history/${id}`,
         providesTags:['singleHistory']
+    }),
+    singleRfq:builder.query({
+        query:(id)=>`${URL}/rfq/${id}`,
+        providesTags:['singlerfq']
+    }),
+    singleProducts:builder.query({
+        query:(id) =>`${URL}/product/${id}`,
+        providesTags:['singleProducts']
     }),
     editUser: builder.mutation({
         query:({id, ...values}) =>({
@@ -93,6 +129,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
             body:values
         })
     }),
+    updateme: builder.mutation({
+        query:(values) =>({
+          url: `${URL}/users/me`,
+          method:'PATCH',
+          body:values
+        }) 
+    }),
     deleteVendor:builder.mutation({
         query:(id) =>({
             url: `${URL}/vendors/${id}`,
@@ -100,6 +143,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
         })
 
     }),
+
+    rfqroute:builder.mutation({
+        query:({id, ...values}) =>({
+            url:`${URL}/product/${id}/rfq`,
+            method:"POST",
+            body:values
+        })
+    }),
+    
     notifications:builder.query({
         query:({id, page, limit})=>{
             const params = new URLSearchParams();
@@ -151,6 +203,18 @@ export const userApiSlice = apiSlice.injectEndpoints({
         providesTags:['vendorProductAdmin']
     
     }),
+    allProducts:builder.query({
+        query:({page, limit, category, search})=>{
+            const params = new URLSearchParams();
+            if (page) params.append('page', page);
+            if (limit) params.append('limit', limit);
+            if (search) params.append('search', search)
+                if (category) params.append('category', category)
+
+            return `${URL}/product?${params.toString()}`
+        },
+        providesTags:['allProducts']
+    }),
     createUser: builder.mutation({
         query:(data) =>({
             url: `${URL}/auth/`,
@@ -159,12 +223,40 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
         })
     }),
+    postProduct: builder.mutation({
+        query:(data) =>({
+            url: `${URL}/product`,
+            method:'POST',
+            body:data
+
+        })
+    }),
+    postResponse: builder.mutation({
+        query:(data) =>({
+          url: `${URL}/rfq/response`,
+          method:'POST',
+          body:data
+        })
+    }),
     emailt: builder.mutation({
         query:(emailData) =>({
             url: `${URL}/users/message`,
             method:'POST',
             body:emailData
 
+        })
+    }),
+    logout:builder.mutation({
+        query:() =>({
+            url:`${URL}/users/logout`,
+            method:'POST'
+        })
+    }),
+    changePassword:builder.mutation({
+        query:(data) =>({
+            url:`${URL}/users/password`,
+            method:'PATCH',
+            body:data
         })
     }),
     exportUser: builder.mutation({
@@ -201,10 +293,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
             return `${URL}/vendors/history?${params.toString()}`;
         },
         providesTags:['vendorshistory']
-      })
+      }),
+
+      
+
 
 
    }) 
 })
 
-export const {useLoginMutation, useNotificationsQuery, useSingleVendorHistoryQuery, useVendorHistoryQuery, useDeleteVendorMutation, useVendorsLogQuery, useEmailtMutation, useLeftJoinQuery, useUpdateVendorMutation, useSingleVendorQuery, useVendorsQuery, useActivateUserMutation, useDeleteUserMutation,  useEditUserMutation, useSingleUserQuery,  useExportUserMutation, useCreateUserMutation, useListUsersQuery, usePolarQuery, useUsersSortQuery, useAnalyticsQuery, useNotificationStatsQuery, useForgotPasswordMutation, useResetPasswordMutation, useUsersStatQuery, useVendorProductadminQuery} = userApiSlice;
+export const {useLoginMutation, useNotificationsQuery, useSingleVendorHistoryQuery, useVendorHistoryQuery, useDeleteVendorMutation, useVendorsLogQuery, useEmailtMutation, useLeftJoinQuery, useUpdateVendorMutation, useSingleVendorQuery, useVendorsQuery, useActivateUserMutation, useDeleteUserMutation,  useEditUserMutation, useSingleUserQuery,  useExportUserMutation, useCreateUserMutation, useListUsersQuery, usePolarQuery, useUsersSortQuery, useAnalyticsQuery, useNotificationStatsQuery, useForgotPasswordMutation, useResetPasswordMutation, useUsersStatQuery, useGetVendorProductQuery, useVendorProductadminQuery, usePostProductMutation, useAllProductsQuery, useSingleProductsQuery, useRfqrouteMutation, useLogoutMutation, useChangePasswordMutation, useRfqvendorQuery, useSingleRfqQuery, usePostResponseMutation, useRfqResponsesQuery, useSingleRfqResponseQuery, useUserprofileQuery, useUpdatemeMutation } = userApiSlice;

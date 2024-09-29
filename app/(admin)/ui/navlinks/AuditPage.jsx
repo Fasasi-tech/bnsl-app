@@ -25,7 +25,7 @@ const AuditPage = () => {
     }
 
     if (error){
-        return <p>Error loading data</p>
+        return <p>{error.data.message}</p>
     }
 
     console.log(history, 'history')

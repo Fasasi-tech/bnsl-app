@@ -3,7 +3,7 @@ import Password from '../ui/forgot-password/Password'
 
 const page = () => {
   return (
-    <div className="mx-4">
+    <div className="mx-4 ">
         <Password />
     </div>
   )

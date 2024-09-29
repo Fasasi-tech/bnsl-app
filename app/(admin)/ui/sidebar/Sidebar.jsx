@@ -8,11 +8,29 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import { CiLogout } from "react-icons/ci";
 import { MdCancel } from "react-icons/md";
+import { useLogoutMutation } from '@/app/ui/utils/slices/usersApiSlice'
+import {logout} from '@/app/ui/utils/slices/authSlice'
+import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Sidebar = () => {
     const {open, setOpen} = useStateContext()
     const pathname= usePathname()
     const isActive = (path) => path === pathname;
+    const [logouts] = useLogoutMutation()
+    const router = useRouter()
+    const dispatch = useDispatch()
+
+
+    const handleLogout = async () =>{
+        try{
+            await logouts().unwrap()
+           dispatch(logout())
+           router.push('/')
+        } catch(err){
+            alert (err.message || 'something went wrong!')
+        }
+    }
 
   return (
     <>
@@ -44,7 +62,7 @@ const Sidebar = () => {
                         </div>
                     )
                 })}
-                <div  className="flex items-center justify-start gap-4 py-4 px-2 font-bold bg-gray-200 dark:bg-slate-800 rounded-lg mt-8 cursor-pointer"  >
+                <div  className="flex items-center justify-start gap-4 py-4 px-2 font-bold bg-gray-200 dark:bg-slate-800 rounded-lg mt-8 cursor-pointer" onClick={handleLogout} >
                     <span className="text-xl text-green-300">
                         <CiLogout />
                     </span>
