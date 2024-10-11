@@ -1,6 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
-const URL ='http://localhost:8000/api/v1'
+const URL ='https://vendor-application.onrender.com/api/v1'
 //`${URL}/users?page=${page}&limit=${limit}`
 
 export const userApiSlice = apiSlice.injectEndpoints({
