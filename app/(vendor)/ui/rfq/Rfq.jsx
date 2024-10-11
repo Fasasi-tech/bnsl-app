@@ -18,7 +18,7 @@ const Rfq = () => {
         return <p className='font-semibold'>{error?.data?.message}</p>
     }
 
-    console.log(data, 'rfqdata')
+  
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);

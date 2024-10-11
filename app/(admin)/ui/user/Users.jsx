@@ -50,7 +50,7 @@ const Users = () => {
           link.click();
           link.parentNode.removeChild(link);
         } catch (err) {
-          console.error('Failed to export users:', err);
+        
         }
       };
 

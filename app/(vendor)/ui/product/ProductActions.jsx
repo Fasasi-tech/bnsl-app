@@ -46,7 +46,7 @@ const openEditDialog = (open) => {
 const handleDeleteProduct = async () =>{
   try{
     const response = await deleteProduct(userId)
-    console.log('Deleted product', response)
+  
     toast({
       description:'product has been deleted successfully'
     })

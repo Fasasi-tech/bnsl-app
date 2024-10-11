@@ -28,7 +28,7 @@ const Password = () => {
             resetForm()
 
         } catch (err){
-            console.log(err)
+            
             alert(err.data?.message || err.error)
 
         }

@@ -24,15 +24,15 @@ const AddVendorDialog = () => {
     const [createVendor] = useCreateVendorMutation()
 
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        console.log('Submitting form with values:', values); // Debugging log
+       
         try {
           const res = await createVendor(values).unwrap();
-          console.log(res);
+        
           setSubmitting(false);
           toast.success('Vendor created successfully!');
           resetForm();
         } catch (err) {
-          console.log(err);
+          
           toast.error(err.data?.message || err.message);
           setSubmitting(false);
         }

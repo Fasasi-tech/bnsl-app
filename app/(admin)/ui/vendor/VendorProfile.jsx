@@ -32,7 +32,6 @@ const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) 
     const handleDelete = async ()=>{
         try{
           const response=await deleteVendor(result._id)
-          console.log('Delete Response:', response);
           toast({
             description: "Vendor has been deleted successfully"
           })

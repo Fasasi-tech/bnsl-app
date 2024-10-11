@@ -40,10 +40,10 @@ const EditVendor = ({user, onClose}) => {
      
         
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        console.log('Submitting form with values:', values);
+     
         try {
           const res = await updateVendor({ id: user._id, ...values }).unwrap();
-          console.log(res);
+      
           setSubmitting(false);
         //   setModalMessage('User updated successfully!');
         toast({
@@ -53,7 +53,7 @@ const EditVendor = ({user, onClose}) => {
           resetForm();
           onClose();
         } catch (err) {
-          console.log(err);
+         
           toast({
             title: "Error",
             description: err.data?.message || err.error,

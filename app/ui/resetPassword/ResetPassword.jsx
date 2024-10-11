@@ -26,7 +26,7 @@ const ResetPassword = () => {
 
     const searchParams = useSearchParams()
     const token= searchParams.get('token')
-    console.log('token',token)
+   
 
     const [resetPassword, {isLoading}] = useResetPasswordMutation()
 
@@ -41,7 +41,7 @@ const ResetPassword = () => {
             resetForm()
 
         } catch (err){
-            console.log(err)
+            
             alert(err.data?.message || err.error)
 
         }

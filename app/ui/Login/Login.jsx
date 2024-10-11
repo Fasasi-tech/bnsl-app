@@ -31,7 +31,7 @@ const Login = () => {
       const [login, {isLoading}] = useLoginMutation()
       const {userInfo} = useSelector((state) => state.auth)
 
-        console.log('userInfo', userInfo)
+       
 
         useEffect(() => {
             if (userInfo?.data?.user?.role ==='vendor') {
@@ -56,22 +56,18 @@ const Login = () => {
 
 
             const res = await login(values).unwrap();
-            console.log(res)
+          
             
               setSubmitting(false);
               dispatch(setCredentials({ ...res }));
               resetForm();
            
-            // router.push('/')
-            // if ( userInfo.role==='vendor'){
-            //     router.push('/dashboard')
-            // }
          
               
             
 
         } catch (err){
-            console.log(err)
+           
             toast.error(err.data?.message || err.error)
 
         }

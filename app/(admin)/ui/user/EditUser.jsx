@@ -19,10 +19,10 @@ const EditUser = ({user, onClose}) => {
     const { toast } = useToast()
     
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        console.log('Submitting form with values:', values);
+        
         try {
           const res = await editUser({ id: user._id, ...values }).unwrap();
-          console.log(res);
+        
           setSubmitting(false);
         //   setModalMessage('User updated successfully!');
         toast({
@@ -32,7 +32,7 @@ const EditUser = ({user, onClose}) => {
           resetForm();
           onClose();
         } catch (err) {
-          console.log(err);
+         
           toast({
             title: "Error",
             description: err.data?.message || err.error,

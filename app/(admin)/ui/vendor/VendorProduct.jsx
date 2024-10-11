@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 const VendorProduct = ({product, totalPages, page, setPage,  isFetching}) => {
     const result=product?.data?.user.getProducts;
-    console.log(result, 'productresult')
+ 
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);

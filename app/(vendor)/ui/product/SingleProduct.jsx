@@ -9,7 +9,7 @@ import RfqPage from './RfqPages'
 
 const SingleProduct = ({data, id}) => {
 
-    console.log(id, 'iddds')
+   
     const result= data.data.user
     const [active, setActive] = useState('productDetails')
     const decodeHtml = (html) => {

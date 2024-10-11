@@ -31,7 +31,7 @@ const ChangePassword = () => {
       const handleSubmit = async (values, {setSubmitting, resetForm}) =>{
         try {
             const res = await reset(values).unwrap();
-            console.log(res)
+           
             dispatch(logout())
             router.push('/')
             
@@ -43,7 +43,7 @@ const ChangePassword = () => {
             
 
         } catch (err){
-            console.log(err)
+          
             toast(err.data?.message || err.error)
             setSubmitting(false);
         }

@@ -14,7 +14,7 @@ const AuditLog = ({id}) => {
     setOpen(isOpen);
 };
 
-console.log(data, 'data')
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>

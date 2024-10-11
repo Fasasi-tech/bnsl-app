@@ -40,7 +40,7 @@ const Product = () => {
 
 }
 
-console.log(category, 'category')
+
 
 const handleChange = (e) => {
   setSearch(e.target.value);

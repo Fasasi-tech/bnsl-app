@@ -27,7 +27,7 @@ const VendorDialog = () => {
     const [updateVendor] = useUpdateBusinessMutation()
 
     const result= data?.data?.user
-    console.log(result, 'result')
+   
     
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -48,16 +48,16 @@ const VendorDialog = () => {
     }
 
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        console.log('Submitting form with values:', values); // Debugging log
+
         try {
           const res = await updateVendor(values).unwrap();
-          console.log(res);
+          
           setSubmitting(false);
           toast.success('Vendor updated successfully!');
         //   router.push('/users')
           resetForm();
         } catch (err) {
-          console.log(err);
+          
           toast.error(err.data?.message || err.error);
           setSubmitting(false);
         }
@@ -349,7 +349,7 @@ const VendorDialog = () => {
                                                 id="location"
                                                 value={values.city} // Ensure this is properly initialized in your form state
                                                 onValueChange={(value) => {
-                                                    console.log("Selected location:", value); // Log the selected value
+                        
                                                     setFieldValue('city', value);
                                                 }}
                                                 onBlur={handleBlur}

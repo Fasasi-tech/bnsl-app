@@ -15,7 +15,7 @@ const page = ({params}) => {
     if (error){
         return <p className='font-bold text-green-300'>{error}</p>
     }
-    console.log('dat',data)
+  
   return (
     <div className='px-4 mt-4 lg:px-8'>
         <UserProfile data={data} />

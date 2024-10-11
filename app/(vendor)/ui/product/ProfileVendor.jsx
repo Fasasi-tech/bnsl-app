@@ -29,7 +29,7 @@ const ProfileVendor = () => {
  }
 
   const result = data?.data?.user;
-  console.log('result', result)
+
 
   return (
     <div  className='relative'>

@@ -26,7 +26,7 @@ const ProductAuditPage = () => {
         return <p>{error?.data?.message}</p>
     }
 
-    console.log(history, 'history')
+   
 
     const result=history.data.user.getAllProductHistory;
     

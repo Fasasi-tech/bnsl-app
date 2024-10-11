@@ -19,8 +19,6 @@ const Aggregate = () => {
         return <p>error</p>
     }
 
-    console.log(data, 'data')
-    console.log('result',data.data.user[0].count)
 
     const datas = data.data.user;
 

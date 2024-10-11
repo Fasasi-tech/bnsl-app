@@ -50,8 +50,7 @@ const Polar = () => {
         ],
       };
     
-    console.log(labels)
-    console.log(counts)
+    
 
     const options = {
         responsive: true,

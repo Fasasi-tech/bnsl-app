@@ -25,16 +25,16 @@ const BtnTrigger = () => {
   const router = useRouter();
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    console.log('Submitting form with values:', values); // Debugging log
+   
     try {
       const res = await CreateUser(values).unwrap();
-      console.log(res);
+     
       setSubmitting(false);
       toast.success('User created successfully!');
       router.push('/users')
       resetForm();
     } catch (err) {
-      console.log(err);
+     
       toast.error(err.data?.message || err.error);
       setSubmitting(false);
     }

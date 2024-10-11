@@ -16,16 +16,16 @@ const ReviewDialog = ({id}) => {
     const [postRatings] = useRatingsMutation()
 
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        console.log('Submitting form with values:', values); // Debugging log
+       
         try {
             const res = await postRatings({id:id, ...values}).unwrap();
-            console.log(res);
+           
             setSubmitting(false);
             toast.success('Reviews created successfully!');
           //   router.push('/vendor-products')
             resetForm();
         } catch (err) {
-          console.log(err);
+        
           toast.error(err.data?.message || err.error);
           setSubmitting(false);
         }

@@ -25,16 +25,16 @@ const EditProfile = ({data}) => {
 
 
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        console.log('Submitting form with values:', values); // Debugging log
+      
         try {
           const res = await updateMe(values).unwrap();
-          console.log(res);
+         
           setSubmitting(false);
           toast.success('Profile updated successfully!');
           router.push('/profile')
           resetForm();
         } catch (err) {
-          console.log(err);
+        
           toast.error(err.data?.message || err.error);
           setSubmitting(false);
         }

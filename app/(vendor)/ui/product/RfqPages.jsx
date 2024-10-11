@@ -17,16 +17,16 @@ const RfqPage = ({id}) => {
    const [postRfq] = useRfqrouteMutation()
 
    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    console.log('Submitting form with values:', values); // Debugging log
+
     try {
       const res = await postRfq({id:id, ...values}).unwrap();
-      console.log(res);
+      
       setSubmitting(false);
       toast.success('Rfq created successfully!');
     //   router.push('/vendor-products')
       resetForm();
     } catch (err) {
-      console.log(err);
+      
       toast.error(err.data?.message || err.error);
       setSubmitting(false);
     }

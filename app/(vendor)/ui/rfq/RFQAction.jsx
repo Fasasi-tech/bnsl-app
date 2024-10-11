@@ -42,15 +42,15 @@ const RFQAction = ({userId}) => {
       };
 
       const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        console.log('Submitting form with values:', values);
+    
         try {
           const res = await postResponse(values).unwrap();
-          console.log(res);
+          
           setSubmitting(false);
             toast.success('Response submitted successfully!')
           resetForm();
         } catch (err) {
-          console.log(err);
+          
           toast.error(err.data?.message || err.error);
           setSubmitting(false);
         }

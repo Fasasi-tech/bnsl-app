@@ -17,7 +17,7 @@ const {userInfo} = useSelector((state) => state.auth)
 const router = useRouter();
 const dispatch = useDispatch()
 
-console.log('userInfo', userInfo)
+
 
     useEffect(() => {
         // Set initial width when component mounts
@@ -39,7 +39,7 @@ console.log('userInfo', userInfo)
       
           // Check for token expiration
           const expirationTime = decoded.exp * 1000 - 60000; 
-          console.log(expirationTime, 'expire')
+          
           if (Date.now() >= expirationTime) {
             dispatch(logout())
             router.push('/');

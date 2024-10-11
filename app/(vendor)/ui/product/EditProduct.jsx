@@ -21,24 +21,22 @@ const EditProduct = ({product}) => {
       
       
     const handleCategoryChange = (value, setFieldValue) => {
-        console.log("Selected Category:", value); // Debugging log
         setFieldValue('category', value); // Update Formik's state
       };
       
       
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        console.log('Submitting form with values:', values); // Debugging log
         try {
             // const productDetails = editor.getHTML();
             const updatedValues = { ...values, id:product._id };
           const res = await editProduct(updatedValues).unwrap();
-          console.log(res);
+          
           setSubmitting(false);
           toast.success('product created successfully!');
         //   router.push('/vendor-products')
           resetForm();
         } catch (err) {
-          console.log(err);
+          
           toast.error(err.data?.message || err.error);
           setSubmitting(false);
         }
@@ -105,8 +103,6 @@ const EditProduct = ({product}) => {
                     errors.category = 'Required'
                 }
 
-
-                console.log('Validation errors:', errors);
 
                 return errors;
             }}
