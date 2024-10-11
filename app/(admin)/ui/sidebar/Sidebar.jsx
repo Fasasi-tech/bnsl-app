@@ -71,6 +71,10 @@ const Sidebar = () => {
                       if (menu.title === 'Emailing' && (!userInfo || !['admin', 'superAdmin'].includes(userInfo.data.user.role))) {
                         return null;
                       }
+
+                      if (menu.title === 'Dashboard' && (!userInfo || !['admin', 'superAdmin'].includes(userInfo.data.user.role))) {
+                        return null;
+                      }
                     return (
                         <div key={menu.id || index} className='mt-4' title={menu.title}>
                             <Link href={menu.path} className={`flex items-center justify-start gap-4 py-4 px-4 font-bold ${isActive(menu.path)? 'bg-green-100 px-4  rounded-lg text-green-300': ''}  cursor-pointer rounded-lg `}>
