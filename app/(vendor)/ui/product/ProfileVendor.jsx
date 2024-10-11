@@ -30,7 +30,11 @@ const ProfileVendor = () => {
 
   const result = data?.data?.user;
 
-
+  // Check if the result is not null or undefined
+  if (!result) {
+    return <p>No vendor profile found. Please create a vendor profile first.</p>;
+  }
+  
   return (
     <div  className='relative'>
       <div className=" rounded-lg shadow-md bg-white w-full mb-4 h-[28rem]">

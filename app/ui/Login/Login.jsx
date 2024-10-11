@@ -35,7 +35,7 @@ const Login = () => {
 
         useEffect(() => {
             if (userInfo?.data?.user?.role ==='vendor') {
-              router.push('/vendor-products');
+              router.push('/create-vendor');
             }
 
             else if (userInfo?.data?.user?.role ==='superAdmin'|| userInfo?.data?.user?.role ==='R.O.A' ||userInfo?.data?.user?.role ==='admin'){
