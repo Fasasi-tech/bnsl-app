@@ -66,10 +66,10 @@ const ProfileVendor = () => {
       </div>
       
       <div className='absolute top-[12rem] left-56'>
-        <h3 className='font-medium text-xl text-gray-500'>{`${result.name}`}</h3>
+        <h3 className='font-medium text-xl text-gray-500'>{`${result?.name}`}</h3>
         <div className='flex items-center gap-2 text-gray-400' >
             <LuSplitSquareVertical />
-            <p className='font-medium text-gray-400'>{result.user.role}</p>
+            <p className='font-medium text-gray-400'>{result?.user?.role}</p>
         </div>
         <div className='flex items-center gap-2 text-gray-400'>
             <FaLocationCrosshairs /> 
@@ -77,7 +77,7 @@ const ProfileVendor = () => {
         </div>
         <div className='flex items-center gap-2 text-gray-400'>
             <FaRegCalendarAlt /> 
-            <p className='font-medium text-gray-400'>joined {formatDate(result.user.createdAt)}</p>
+            <p className='font-medium text-gray-400'>joined {formatDate(result?.user?.createdAt)}</p>
         </div> 
       </div>
     </div>
@@ -88,15 +88,15 @@ const ProfileVendor = () => {
             
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>Business Name:</p>
-                    <p className='text-sm text-gray-400'>{`${result.name}`}</p>
+                    <p className='text-sm text-gray-400'>{`${result?.name}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>Description:</p>
-                    <p className='text-sm text-gray-400'>{`${result.description}`}</p>
+                    <p className='text-sm text-gray-400'>{`${result?.description}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>Vendor Class:</p>
-                    <p className="text-sm text-gray-400"> {result.vendor_class}</p>
+                    <p className="text-sm text-gray-400"> {result?.vendor_class}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>City:</p>
@@ -109,23 +109,23 @@ const ProfileVendor = () => {
                 <h3 className='text-gray-400 border-b text-lg font-semibold border-gray-200 pt-2 pb-2'>Vendor Details</h3>
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>First Name:</p>
-                    <p className='text-sm text-gray-400'>{`${result.user.firstName}`}</p>
+                    <p className='text-sm text-gray-400'>{`${result?.user?.firstName}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>Last Name:</p>
-                    <p className='text-sm text-gray-400'>{`${result.user.lastName}`}</p>
+                    <p className='text-sm text-gray-400'>{`${result?.user?.lastName}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>Status:</p>
-                    <p className="text-sm text-gray-400"> {result.user.role}</p>
+                    <p className="text-sm text-gray-400"> {result?.user?.role}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>Email:</p>
-                    <p className="text-sm text-gray-400"> {result.user.email}</p>
+                    <p className="text-sm text-gray-400"> {result?.user?.email}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 pb-2">
                     <p className='text-gray-500 font-semibold text-sm'>Status:</p>
-                    <p className="text-sm text-gray-400"> {result.user.active ? 'Active' : 'In-active'}</p>
+                    <p className="text-sm text-gray-400"> {result?.user?.active ? 'Active' : 'In-active'}</p>
                 </div>
             </div>
         </div>   
