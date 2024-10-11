@@ -4,6 +4,7 @@ import { FiUsers } from "react-icons/fi";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { AiOutlineProduct } from "react-icons/ai";
 import { FaKey } from "react-icons/fa6";
+import { ImProfile } from "react-icons/im";
 
 export const Menus =[
     {
@@ -21,53 +22,60 @@ export const Menus =[
     },
     {
         "id":3,
-        "title":"Password change",
+        "title":"products",
+        "icon": < AiOutlineProduct />,
+        "path": '/products'
+    },
+    {
+        "id":4,
+        "title":"Change password",
         "icon":< FaKey/>,
         "path":'/password'
     },
     {
-        "id":4,
-        "title":"user profile",
-        "icon":< FaKey/>,
+        "id":5,
+        "title":"Profile",
+        "icon":< ImProfile/>,
         "path":'/profile'
     },
     
     {
-        "id":5,
+        "id":6,
         "title":"Vendors",
         "icon": <MdOutlineManageAccounts />,
         "path":'/vendor',
 
     },
     {
-        "id":6,
+        "id":7,
         "title":"Emailing",
         "icon": <MdOutlineEmail />,
         "path": '/email'
     },
     {
-        "id":7,
+        "id":8,
         "title":"Audit Trail",
         "icon": <AiOutlineAudit/>,
         "path": '/audit-trail'
 
     },
     {
-        "id":8,
+        "id":9,
         "title":"Notifications",
         "icon": < IoIosNotificationsOutline />,
         "path": '/notification'
     },
     {
-        "id":9,
+        "id":10,
         "title":"RFQ Responses",
         "icon": < IoIosNotificationsOutline />,
         "path": '/rfq-responses'
     },
     {
-        "id":10,
-        "title":"products",
-        "icon": < AiOutlineProduct />,
-        "path": '/products'
-    }
+        "id":11,
+        "title":"RFQs",
+        "icon": < IoIosNotificationsOutline />,
+        "path": '/rfqs'
+    },
+   
 ]

@@ -13,7 +13,8 @@ import { useRouter} from 'next/navigation'
 import Link from 'next/link'
 import Loader from '../utils/Loader'
 import LoaderBtn from '../utils/LoaderBtn'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -34,14 +35,18 @@ const Login = () => {
 
         useEffect(() => {
             if (userInfo?.data?.user?.role ==='vendor') {
-              router.push('/admin');
+              router.push('/vendor-products');
             }
 
-            else if (userInfo?.data?.user?.role ==='superAdmin'){
-                router.push('/notification')
+            else if (userInfo?.data?.user?.role ==='superAdmin'|| userInfo?.data?.user?.role ==='R.O.A' ||userInfo?.data?.user?.role ==='admin'){
+                router.push('/profile')
             }
 
-            else  if (!userInfo){
+            else if(userInfo?.data?.user?.role ==='user'){
+                router.push('/products')
+            }
+
+            else{
                 router.push('/')
             }
           }, [router, userInfo]);
@@ -67,23 +72,11 @@ const Login = () => {
 
         } catch (err){
             console.log(err)
-            alert(err.data?.message || err.error)
+            toast.error(err.data?.message || err.error)
 
         }
       }
 
-    //   useEffect(() => {
-    //     if ( userInfo.role==='admin'){
-    //         router.push('/dashboard')
-    //     }
-
-    //     else if ( userInfo.role === 'vendor'){
-    //         router.push('/notification')
-    //     }
-    //     else {
-    //         router.push('/')
-    //     }
-    //   }, [router, userInfo])
      
   return (
     <div className='items-center justify-center h-screen flex flex-col ' >
@@ -167,9 +160,10 @@ const Login = () => {
                         <Button variant='destructive' type='submit'className={` ${ isSubmitting? 'opacity-50 cursor-not-allowed':''} `} disabled={ isSubmitting}> {isSubmitting ? <LoaderBtn/> : 'Submit'}</Button>
                     </div>
                     
-                </form>)}
+                </form >)}
             </Formik>
         </div>
+        <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
   )
 }

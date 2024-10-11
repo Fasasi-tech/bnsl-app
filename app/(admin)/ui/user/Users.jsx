@@ -13,13 +13,14 @@ import { BiExport } from "react-icons/bi";
 import debounce from 'lodash/debounce';
 import BtnTrigger from './BtnTrigger';
 import Actions from './Actions';
+import { useSelector } from 'react-redux';
   
 
 
 const Users = () => {
 
-    
-
+    const {userInfo} = useSelector((state) =>state.auth)
+    // const [isClient, setIsClient] = useState(false);
     const ITEMS_PER_PAGE = 10;
 
     const [page, setPage] = useState(1)
@@ -52,6 +53,15 @@ const Users = () => {
           console.error('Failed to export users:', err);
         }
       };
+
+    //   useEffect(() => {
+    //     setIsClient(true);
+    //   }, []);
+    
+    //   if (!isClient) {
+    //     return null; // Or return a loading spinner, etc.
+    //   }
+
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -153,12 +163,11 @@ const Users = () => {
             >
                 <p className='flex text-white items-center font-bold  gap-2' onClick={handleClick}>< BiExport className='text-white text-lg font-black '/>{isLoading? <p>Loading ...</p>:<p>Export</p>} </p>
             </Button>
-            <Button
+                { userInfo && (userInfo?.data?.user?.role==='admin'|| userInfo?.data?.user?.role==='superAdmin') ? <Button
                 variant="destructive"
-            >
-                {/* <p className='flex text-white items-center font-bold  gap-2'> <IoMdPersonAdd className='text-white text-lg font-black '/>Add New User</p> */}
-                <BtnTrigger />
-            </Button>
+                >
+                 <BtnTrigger />
+            </Button>:''}
             
         </div>
        
@@ -169,7 +178,7 @@ const Users = () => {
                     <TableHead className='w-1/6'>Role</TableHead>
                     <TableHead className='w-1/6'>Status</TableHead>
                     <TableHead className='w-1/6'>Created At</TableHead>
-                    <TableHead className='w-1/6'>Actions</TableHead>
+                    {userInfo && (userInfo?.data?.user?.role==='admin'|| userInfo?.data?.user?.role==='superAdmin') ?<TableHead className='w-1/6'>Actions</TableHead>:''}
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -190,7 +199,7 @@ const Users = () => {
                     <TableCell className="w-1/6 text-sm text-gray-400">{i.role}</TableCell>
                     <TableCell className='w-1/6 '><p className={`inline-block text-sm px-2 rounded-sm ${i.active===true ?'bg-green-100 text-green-300 ':'bg-red-100 text-red-300'}`}>{i.active === true ? 'Active' :'inActive'}</p></TableCell>
                     <TableCell className="w-1/6 text-sm text-gray-400">{formatDate(i.createdAt)}</TableCell>
-                    <TableCell className="w-1/6 text-sm text-gray-400"><Actions userId={i._id}/></TableCell>
+                    {userInfo && (userInfo?.data?.user?.role==='admin'|| userInfo?.data?.user?.role==='superAdmin') ?<TableCell className="w-1/6 text-sm text-gray-400"><Actions userId={i._id}/></TableCell>:''}
                 </TableRow>
                 )) }
             </TableBody> 

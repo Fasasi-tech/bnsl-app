@@ -24,19 +24,19 @@ const UserProfile = ({data}) => {
         return date.toLocaleDateString('en-US', options);
       };
       
-    const result=data.data.user
+    const result=data?.data?.user
     const initials = `${result.firstName?.slice(0, 1).toUpperCase()} ${result.lastName?.slice(0, 1).toUpperCase()}`;
 
     const handleDelete =  async () => {
         try {
             const response = await deleteUser(result._id).unwrap();
             toast({
-                     description: "User has been deleted successfully.",
+                     description: "User has been suspended successfully.",
               })
 
         } catch (error) {
             toast({
-                            description: "There was an error deleting the user.",
+                            description: "There was an error suspending the user.",
                            variant: "destructive",
                      });
         }
@@ -99,7 +99,7 @@ const UserProfile = ({data}) => {
     <div className=" items-center gap-4 mt-44 bg-white rounded-lg p-4">
        
       <div className=''>
-        <h3 className='text-gray-400 border-b text-lg font-semibold border-gray-200 pt-8 '>Details</h3>
+        <h3 className='text-gray-400 border-b text-lg font-semibold border-gray-200 pt-2 '>Details</h3>
         <div className="flex items-center justify-start gap-4 py-2">
             <p className='text-gray-500 font-semibold text-sm'>First Name:</p>
             <p className='text-sm text-gray-400'>{`${result.firstName}`}</p>

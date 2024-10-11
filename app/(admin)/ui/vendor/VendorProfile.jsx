@@ -12,10 +12,11 @@ import { useDeleteVendorMutation } from '@/app/ui/utils/slices/usersApiSlice';
 import DeleteDialog from './DeleteDialog';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter} from 'next/navigation'
-
+import {useSelector} from 'react-redux'
 
 const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) => {
-
+    
+    const {userInfo} = useSelector((state) =>state.auth)
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -24,7 +25,7 @@ const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) 
       const [deleteVendor]= useDeleteVendorMutation()
     const [selectedUser, setSelectedUser] = useState(null)
     const { toast } = useToast()
-    const result= data.data.user;
+    const result= data?.data?.user;
     const router = useRouter()
 
 
@@ -47,7 +48,7 @@ const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) 
       }
   return (
     <div className='relative' >
-        <div className=" rounded-lg shadow-md bg-white w-full mb-4 h-[20rem]">
+        <div className=" rounded-lg shadow-md bg-white w-full mb-4 h-[24rem]">
             <div className='flex flex-col  items-center '>
                 <div className=" bg-cover bg-center">
                     <Image
@@ -86,7 +87,7 @@ const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) 
                 </div>
                 <div className='flex items-center gap-2 text-gray-400'>
                     <FaLocationCrosshairs /> 
-                    <p className='font-medium text-gray-400'>Lagos</p>
+                    <p className='font-medium text-gray-400'>{result?.city}</p>
                 </div>
                 <div className='flex items-center gap-2 text-gray-400'>
                     <FaRegCalendarAlt /> 
@@ -97,7 +98,7 @@ const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) 
     <div className="  w-full  mt-4 flex flex-wrap lg:flex-nowrap justify-between gap-4">
         <div className=" items-center gap-4 p-8  py-4  rounded-lg shadow-md bg-white w-full lg:w-1/3">
             <div>
-                <h3 className='text-gray-400 border-b text-lg font-semibold border-gray-200 pt-8 pb-4'>Business Details</h3>
+                <h3 className='text-gray-400 border-b text-lg font-semibold border-gray-200 pt-2 pb-2'>Business Details</h3>
             
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>Business Name:</p>
@@ -108,10 +109,18 @@ const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) 
                     <p className='text-sm text-gray-400'>{`${result.description}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
+                    <p className='text-gray-500 font-semibold text-sm'>City:</p>
+                    <p className='text-sm text-gray-400'>{`${result?.city}`}</p>
+                </div>
+                <div className="flex items-center justify-start gap-4 py-2">
+                    <p className='text-gray-500 font-semibold text-sm'>Address:</p>
+                    <p className='text-sm text-gray-400'>{`${result?.address}`}</p>
+                </div>
+                <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>Vendor Class:</p>
                     <p className="text-sm text-gray-400"> {result.vendor_class}</p>
                 </div>
-                <h3 className='text-gray-400 border-b text-lg font-semibold border-gray-200 pt-8 pb-4'>Vendor Details</h3>
+                <h3 className='text-gray-400 border-b text-lg font-semibold border-gray-200 pt-2 pb-2'>Vendor Details</h3>
                 <div className="flex items-center justify-start gap-4 py-2">
                     <p className='text-gray-500 font-semibold text-sm'>First Name:</p>
                     <p className='text-sm text-gray-400'>{`${result.user.firstName}`}</p>
@@ -133,11 +142,11 @@ const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) 
                     <p className="text-sm text-gray-400"> {result.user.active ? 'Active' : 'In-active'}</p>
                 </div>
             </div>
-            <div className='pt-8 flex items-center gap-4 md:gap-8 justify-start'>
+            {userInfo && (userInfo.data.user.role==='admin' || userInfo.data.user.role==='superAdmin') && (<div className='pt-8 flex items-center gap-4 md:gap-8 justify-start'>
                 <Button variant='destructive' onClick={() => setSelectedUser(result)} > Edit </Button>
                 {/* <Button variant='' onClick={handleDelete}>Delete</Button> */}
                 <DeleteDialog handleDelete={handleDelete} />
-            </div>
+            </div>)}
         </div>
 
         <div className='w-full lg:w-2/3'>

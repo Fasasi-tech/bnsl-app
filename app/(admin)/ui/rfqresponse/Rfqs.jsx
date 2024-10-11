@@ -1,29 +1,29 @@
 'use client'
 import React, {useState} from 'react'
-import { useRfqResponsesQuery } from '../../../ui/utils/slices/usersApiSlice'
 import Loader from '../../../ui/utils/Loader'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import RFQresponseActions from './RFQresponseActions'
+import { useRfqsQuery } from '@/app/ui/utils/slices/usersApiSlice'
+import AdminRfqs from '@/app/(vendor)/ui/rfq/AdminRfqs'
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Button } from '@/components/ui/button';
 import classNames from 'classnames';
 
-const Responses = () => {
-    const [page, setPage] = useState(1);
-    const ITEMS_PER_PAGE= 6;
-    const {data, isLoading, error, isFetching} = useRfqResponsesQuery({page, limit:ITEMS_PER_PAGE})
- 
-    if (isLoading){
+const Rfqs = () => {
+  const [page, setPage] = useState(1);
+  const ITEMS_PER_PAGE= 10;
+  const {data, isLoading, error, isFetching} = useRfqsQuery({page, limit:ITEMS_PER_PAGE})
+
+  if(isLoading){
     return <Loader />
- }
+  }
 
- if (error){
-    return <p>{error?.data?.message}</p>
- }
-    const result= data?.data?.user?.Rfqs
-    const totalPages= Math.ceil(data?.data?.user?.countResult / ITEMS_PER_PAGE)
+  if (error){
+    return <p className='font-semibold'>{error?.data?.message}</p>
+  }
+  const result = data?.data?.user?.getAllRfq
+  const totalPages= Math.ceil(data?.data?.user?.countResult /ITEMS_PER_PAGE)
 
-    const batchSize = 5; // Number of pages to show in each batch
+  const batchSize = 5; // Number of pages to show in each batch
     const startPage = Math.floor((page - 1) / batchSize) * batchSize + 1;
     const endPage = Math.min(startPage + batchSize - 1, totalPages);
     
@@ -31,43 +31,42 @@ const Responses = () => {
         return <div className='font-bold text-green-300'>No RFQs available.</div>;
     }
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return date.toLocaleDateString('en-US', options);
-      };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
   return (
-    <div  className='bg-white dark:bg-slate-800 p-4 rounded-lg shadow-lg overflow-x-auto'>
-        <Table>
+    <div className='bg-white dark:bg-slate-800 p-4 rounded-lg shadow-lg overflow-x-auto'>
+      <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead className='w-1/6'>Product Name</TableHead>
-                    <TableHead className='w-1/6'>Product Category</TableHead>
-                    <TableHead className='w-1/6'>Sender Email</TableHead>
-                    <TableHead className='w-1/6'>Action</TableHead>
+                    <TableHead className='w-1/6'>Product</TableHead>
+                    <TableHead className='w-1/6'>Customer</TableHead>
+                    <TableHead className='w-1/6'>Created At</TableHead>
+                    <TableHead className='w-1/6'>Actions</TableHead>
+                   
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {
-                    result.map((i, index) =>(
-                        <TableRow key={index}>
-                            <TableCell className='px-2 w-1/3'>
-                                {i?.product?.name}
-                            </TableCell>
-                            <TableCell className='w-1/6'>
-                                {i?.product?.category}
-                            </TableCell>
-                            <TableCell className='w-1/6'>
-                                {i.customerEmail}
-                            </TableCell>
-                            <TableCell className='w-1/6'>
-                                <RFQresponseActions userId={i._id} />
-                            </TableCell>
-                        </TableRow>
-                    ))
+                {result?.map((i, index) =>(
                     
-                }
-            
+                    <TableRow key={index}>
+                        <TableCell className="w-1/6 text-sm text-gray-400">
+                        {i.product?.name}
+                        </TableCell>
+                        <TableCell className="w-1/6 text-sm text-gray-400">
+                            {i.buyer.email}
+                        </TableCell>
+                        <TableCell className="w-1/6 text-sm text-gray-400">
+                            {formatDate(i.createdAt)}
+                        </TableCell>
+                        <TableCell className="w-1/6 text-sm text-gray-400">
+                            <AdminRfqs userId={i._id}/>
+                        </TableCell>
+                    </TableRow>
+                ))}
             </TableBody>
         </Table>
         <div className="flex justify-end gap-2 mt-4">
@@ -123,4 +122,4 @@ const Responses = () => {
   )
 }
 
-export default Responses
+export default Rfqs

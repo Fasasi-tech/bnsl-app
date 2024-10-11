@@ -26,7 +26,7 @@ const Vendor = () => {
     }
 
     if (error){
-        return <p className='text-green-300 font-semibold '>{`${error.message}`}</p>
+        return <p className='text-green-300 font-semibold '>{`${error?.data?.message}`}</p>
     }
 
     const formatDate = (dateString) => {
@@ -111,7 +111,7 @@ const Vendor = () => {
         </form>
            
             
-        </div>
+    </div>
     
     <Table>
         <TableHeader>

@@ -45,7 +45,7 @@ const Profile = () => {
 
                     />
                 </div>
-                <div className="w-40 h-40 absolute gap-2 top-32 left-8">
+                <div className="w-36 h-36 md:w-40 md:h-40 absolute gap-2 top-32 left-8">
                   { result?.image?.url ? (
                     <Image
                       alt="profile image"
@@ -65,7 +65,7 @@ const Profile = () => {
 
 
             </div>
-            <div className='absolute top-[12rem] left-56'>
+            <div className='absolute top-[12rem] left-[12rem] md:left-56'>
                 <h3 className='font-medium text-sm md:text-2xl text-gray-500'>{`${result.firstName} ${result.lastName}`}</h3>
                 <p className='bg-gray-100 mt-4 text-gray-400 inline-block px-4 rounded-sm font-medium'>{result.role}</p>
             </div>

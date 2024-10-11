@@ -1,15 +1,18 @@
 'use client'
-import React from 'react'
+import React, {useState} from 'react'
 import ProductDetailsPage from './ProductDetailsPage';
 import Image from 'next/image'
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import ReviewsPage from './ReviewsPage';
+import ReviewPage from './ReviewPage';
 
 
 const VendorSingleDetails = ({data}) => {
 
     const router = useRouter()
+    const [active, setActive] = useState('productDetails')
 
     const decodeHtml = (html) => {
         const txt = document.createElement('textarea');
@@ -21,7 +24,7 @@ const VendorSingleDetails = ({data}) => {
 
   return (
     <>
-         <div className='w-full py-16 px-4  bg-white  dark:bg-slate-800 shadow-lg rounded-lg   mx-auto'>
+         <div className='w-full py-16 px-4 bg-white  dark:bg-slate-800 shadow-lg rounded-lg   mx-auto'>
             <div className='grid grid-cols-2 gap-4'>
                 <div >
                     <Image
@@ -60,9 +63,27 @@ const VendorSingleDetails = ({data}) => {
             </div>
 
         </div>
-        <ProductDetailsPage data={data.productDetails} decodeHtml={decodeHtml}/>
-
-        <Button variant='destructive' onClick={() =>{router.push('/edit-product')}}>Edit</Button>
+        <div className='bg-white rounded-lg p-4 mt-2 shadow-lg'>
+            <div className='flex items-center justify-start gap-8'>
+                <button
+                    className={active === 'productDetails' ? 'font-semibold border-b-2 border-black inline-block' : ''}
+                    onClick={() => setActive('productDetails')}
+                >
+                    Product Details
+                </button>
+                <button className={active ==='reviews' ? 'font-semibold border-b-2 border-black inline-block':''} onClick={() => setActive('reviews')}>
+                            Reviews
+                </button>
+            </div>
+            {/* <ProductDetailsPage data={data.productDetails} decodeHtml={decodeHtml}/> */}
+        
+            <div className='mt-4'>
+                {active ==='productDetails' && <ProductDetailsPage data={data.productDetails} decodeHtml={decodeHtml} />}
+                {active ==='reviews' && <ReviewPage reviews={data.review}/>}
+                {/* {active ==='rfq' && <RfqPage id={id} />} */}
+            </div>
+        </div>
+        {/* <Button variant='destructive' onClick={() =>{router.push('/edit-product')}}>Edit</Button> */}
     </>
   )
 }

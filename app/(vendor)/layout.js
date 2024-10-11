@@ -20,6 +20,7 @@ export default function RootLayout({children}){
                             <ProductLayoutContent>
                                 {children}
                             </ProductLayoutContent>
+                            <Toaster />
                         </div>
                     </ContextProvider>
                 </body>

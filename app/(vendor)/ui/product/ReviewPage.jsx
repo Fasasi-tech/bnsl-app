@@ -2,8 +2,8 @@ import React from 'react'
 import { FaStar } from "react-icons/fa";
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import ReviewDialog from './ReviewDialog'
-const ReviewsPage = ({reviews, id}) => {
+
+const ReviewPage = ({reviews}) => {
     const formatDate = (dateString) => {
         const options = {
           month: 'short',    // "Jun"
@@ -17,12 +17,11 @@ const ReviewsPage = ({reviews, id}) => {
         const date = new Date(dateString);
         return date.toLocaleString('en-US', options);
       };
+
+
   return (
-    <div className='mt-4 relative'>
-        <div className='border-b-2 w-12 h-12 rounded-full absolute top-0 right-0 bg-green-300'>
-         {/* <Button variant='outline'>Add Review</Button> */}
-         <ReviewDialog id={id} />
-        </div>
+    <div className='mt-4 '>
+       
         {
             reviews.length > 0 ? (reviews.map((review,i) => (
                 <div key={i} className='border-b-2 pb-2 mb-4'>
@@ -49,4 +48,4 @@ const ReviewsPage = ({reviews, id}) => {
   )
 }
 
-export default ReviewsPage
+export default ReviewPage

@@ -26,7 +26,7 @@ const Product = () => {
     }
 
     if (error){
-        return <p>{error.data.message}</p>
+        return <p>{error?.data?.message}</p>
     }
 
     const formatDate = (dateString) => {
@@ -107,7 +107,7 @@ const Product = () => {
                                 </Avatar>
                                 <div>
                                     <p className='text-gray-400 text-sm'>{i.name}</p>
-                                    <p className='text-gray-500  font-medium'>{`${i.description}`}</p>
+                                    {/* <p className='text-gray-500  font-medium'>{`${i.description}`}</p> */}
                                 </div>
                             </div> 
                         </TableCell>

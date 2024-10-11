@@ -1,10 +1,10 @@
 import React from 'react'
-import Responses from '../ui/rfqresponse/Responses'
+import Rfqs from '../ui/rfqresponse/Rfqs'
 
 const page = () => {
   return (
     <div className='px-4 my-4 lg:px-8'>
-        <Responses />
+      <Rfqs/>
     </div>
   )
 }

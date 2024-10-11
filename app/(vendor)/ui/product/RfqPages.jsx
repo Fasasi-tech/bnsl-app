@@ -54,17 +54,12 @@ const RfqPage = ({id}) => {
     <div className='mt-4'>
         <Formik
             initialValues={{
-                quantity:"",
                 document:"",
                 additionalInfo:""
             }}
 
             validate = {(values) => {
                 const errors={}
-
-                if (!values.quantity){
-                    errors.quantity='Required'
-                }
 
                 if(!values.document){
                     errors.document = 'Required'
@@ -90,24 +85,6 @@ const RfqPage = ({id}) => {
             <div>
                 <form onSubmit ={handleSubmit}>
                     <div>
-                            <div className='grid-cols-4 items-center mt-4 gap-4 relative'>
-                                <Label htmlFor="quantity" className='text-gray-500'>
-                                    Quantity
-                                </Label>
-                                <Input
-                                    type='number'
-                                    name="quantity"
-                                    id="quantity"
-                                    value={values.quantity}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    placeholder='quantity'
-                                    className="col-span-3  pl-8"
-                                />
-                                {touched.quantity && errors.quantity ? (
-                                    <div className='text-red-500 pl-2 font-semibold'>{errors.quantity}</div>
-                                ) : null}
-                            </div>
                             <div className='grid-cols-4 items-center mt-4 gap-4 relative'>
                                 <Label htmlFor="quantity" className='text-gray-500'>
                                     Information
@@ -156,8 +133,8 @@ const RfqPage = ({id}) => {
                             </div>
                     </div> 
                     <div className='mt-4 w-full'>
-                            <Button  className={`${ isSubmitting? 'opacity-50 cursor-not-allowed':''}`}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
-                        </div>
+                        <Button  className={`${ isSubmitting? 'opacity-50 cursor-not-allowed':''}`}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
+                    </div>
                 </form>
             </div>
         )}

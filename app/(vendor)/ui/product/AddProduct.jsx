@@ -199,7 +199,7 @@ const AddProduct = () => {
                                         onValueChange={(value) => setFieldValue('creditTerm.unit', value)}
                                         value={values.creditTerm.unit} // Bind Formik's value for unit
                                     >
-                                                                            <SelectTrigger className="w-full ">
+                                        <SelectTrigger className="w-full ">
                                             <SelectValue placeholder="" />
                                         </SelectTrigger>
                                         <SelectContent>

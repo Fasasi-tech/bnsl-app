@@ -15,7 +15,7 @@ if (isLoading){
 }
 
 if (error){
-    return (<p>{error.meesage}</p>)
+    return (<p>{error?.data?.meesage}</p>)
 }
 
 const funcSelectedUsers = (userid) =>{

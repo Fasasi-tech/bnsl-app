@@ -215,7 +215,7 @@ const RFQAction = ({userId}) => {
                                         {/* Hidden input field */}
                                     </div>
                                 </div>
-                                <div className="grid gap-4 py-2">
+                                <div className="grid gap-4 pt-2">
                                     <div className='grid-cols-4 items-center gap-4 relative'>
                                         <Input
                                             type='text'
@@ -230,7 +230,7 @@ const RFQAction = ({userId}) => {
                                     </div>
                                 </div>
 
-                                <div className='mb-4 mt-4'>
+                                <div className='mb-4 '>
                                     <Label htmlFor="quantity" className='text-gray-500'>
                                             Document
                                     </Label>

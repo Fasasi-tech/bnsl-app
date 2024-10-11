@@ -1,4 +1,3 @@
-
 'use client'
 import React, { useEffect, useState } from 'react'
 import socket from '@/app/ui/utils/socket'
@@ -12,65 +11,54 @@ import classNames from 'classnames';
 import { useStateContext } from '../../context/ContextProvider'
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux'
+import jwt_decode from 'jwt-decode';
 
 const Notifications = () => {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const router = useRouter();
     const {userInfo} = useSelector((state) => state.auth)
-
+    
     const ITEMS_PER_PAGE= 10;
     const { data: notifications, refetch, isLoading, isFetching, error } = useNotificationsQuery({ page, limit: ITEMS_PER_PAGE, search }, { refetchOnMountOrArgChange: true });
     const { setNotificationCount } = useStateContext();
+
     useEffect(() => {
-        // Listen for new notifications
+        // Reset notification count when the notification page is opened
         setNotificationCount(0);
-        socket.on('new-notification', () => {
-            refetch(); // Refetch notifications when a new one is received
-        });
+        localStorage.setItem('notificationCount', '0'); // Reset in localStorage
 
-
-
-        //Cleanup on component unmount
-        return () => {
-            socket.off('new-notification');
-        };
+        // Refetch notifications when the page is opened
+        refetch();
     }, [refetch, setNotificationCount]);
 
    
-    useEffect(() => {
-         if (!userInfo){
-            router.push('/')
-        }
-      }, [router, userInfo]);
-
     if (isLoading) {
         return <Loader />;
     }
+
 
     if (error) {
         return <div className='font-bold text-green-300'>{error?.data?.message}</div>;
     }
 
-    console.log(error?.data?.message, 'error')
+
 
     const result = notifications?.data?.user?.notifications;
     const totalPages= Math.ceil(notifications?.data?.user?.result/ ITEMS_PER_PAGE);
 
+    const batchSize = 5; // Number of pages to show in each batch
+    const startPage = Math.floor((page - 1) / batchSize) * batchSize + 1;
+    const endPage = Math.min(startPage + batchSize - 1, totalPages);
+    
     if (result?.length === 0) {
         return <div className='font-bold text-green-300'>No notifications available.</div>;
     }
 
     const timeAgo = (dateString) => {
         const utcDate = new Date(dateString);
-        // const watDate = toZonedTime(utcDate, 'Africa/Lagos');
-        // const now = new Date();
         const watDate = toZonedTime(utcDate, 'Africa/Lagos');
         const diffInSeconds = Math.floor((new Date() - watDate) / 1000);
-        
-        // const past = new Date(dateString);
-        // const diffInSeconds = Math.floor((now - watDate) / 1000);
-    
         const seconds = diffInSeconds % 60;
         const minutes = Math.floor((diffInSeconds / 60) % 60);
         const hours = Math.floor((diffInSeconds / 3600) % 24);
@@ -104,43 +92,56 @@ const Notifications = () => {
                     </div>    
                 </div>
             ))}
-            <div className="flex justify-end gap-2 mt-4"> {/* Added flex and gap-2 for spacing */}
-            <button
-                onClick={() => setPage(page - 1)}
-                disabled={page === 1}
-                className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
-                isLoading={isFetching}
-            >
-                <FaAngleLeft />
-            </button>
-            {[...Array(totalPages)].map((_, index) => (
-                <Button
-                    variant="secondary"
-                    key={index + 1}
-                    onClick={() => setPage(index + 1)}
-                    className={classNames(
-                    ' px-3 rounded',
-                    {
-                        'bg-green-300 text-white': page === index + 1,
-                        'bg-gray-200': page !== index + 1,
-                    },
-                    'mx-1' // Added margin-x for spacing between buttons
-            )}
+        <div className="flex justify-end gap-2 mt-4">
+        {/* Previous button */}
+                <button
+                    onClick={() => setPage(page - 1)}
+                    disabled={page === 1}
+                    className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
                     isLoading={isFetching}
                 >
-                    {index + 1}
-                </Button>
-            ))}
-            <button
-                onClick={() => setPage(page + 1)}
-                disabled={page === totalPages}
-                className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
-                isLoading={isFetching}
-            >
-                <FaAngleRight />
-            </button>
+                    <FaAngleLeft />
+                </button>
+
+                {/* Calculate the start and end pages to display only 3 buttons */}
+                {(() => {
+                    const startPage = Math.max(1, page - 1);
+                    const endPage = Math.min(totalPages, startPage + 2);
+
+                    return [...Array(endPage - startPage + 1)].map((_, index) => {
+                    const currentPage = startPage + index;
+                    return (
+                        <Button
+                        variant="secondary"
+                        key={currentPage}
+                        onClick={() => setPage(currentPage)}
+                        className={classNames(
+                            'px-3 rounded',
+                            {
+                            'bg-green-300 text-white': page === currentPage,
+                            'bg-gray-200': page !== currentPage,
+                            },
+                            'mx-1'
+                        )}
+                        isLoading={isFetching}
+                        >
+                        {currentPage}
+                        </Button>
+                    );
+                    });
+                })()}
+
+                {/* Next button */}
+                <button
+                    onClick={() => setPage(page + 1)}
+                    disabled={page === totalPages}
+                    className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+                    isLoading={isFetching}
+                >
+                    <FaAngleRight />
+                </button>
         </div>
-        </div>
+    </div>
     );
 }
 

@@ -1,7 +1,6 @@
 'use client'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useStateContext } from '../../context/ContextProvider'
-import { useState, useEffect } from 'react'
 import { Menus } from '@/app/ui/utils/Menus'
 import { IoCloseSharp } from "react-icons/io5";
 import Link from 'next/link'
@@ -12,15 +11,19 @@ import { useLogoutMutation } from '@/app/ui/utils/slices/usersApiSlice'
 import {logout} from '@/app/ui/utils/slices/authSlice'
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
+import dynamic from "next/dynamic";
+import { GiCancel } from "react-icons/gi";
+
 
 const Sidebar = () => {
+    const [isClient, setIsClient] = useState(false);
     const {open, setOpen} = useStateContext()
     const pathname= usePathname()
     const isActive = (path) => path === pathname;
     const [logouts] = useLogoutMutation()
     const router = useRouter()
     const dispatch = useDispatch()
-
+    const {userInfo} = useSelector((state) =>state.auth)
 
     const handleLogout = async () =>{
         try{
@@ -31,6 +34,15 @@ const Sidebar = () => {
             alert (err.message || 'something went wrong!')
         }
     }
+    const handleActiveMenu = () => setOpen(!open);
+
+    useEffect(() => {
+        setIsClient(true);
+      }, []);
+    
+      if (!isClient) {
+        return null; // Or return a loading spinner, etc.
+      }
 
   return (
     <>
@@ -47,8 +59,18 @@ const Sidebar = () => {
             {/* <button onClick={() => setOpen(!open)} className="p-2 ">
                 {open ? 'Close' : 'Open'}
                 </button> */}
+                 <div className='  text-green-300 text-2xl flex justify-end mt-4 cursor-pointer'>
+                    <GiCancel onClick={handleActiveMenu} />
+                </div>
             <div className="mt-16">
                 {Menus.map((menu) => {
+                     if (menu.title === 'Users' && (!userInfo || !['admin', 'superAdmin', 'R.O.A'].includes(userInfo.data.user.role))) {
+                        return null;
+                      }
+
+                      if (menu.title === 'Emailing' && (!userInfo || !['admin', 'superAdmin'].includes(userInfo.data.user.role))) {
+                        return null;
+                      }
                     return (
                         <div key={menu.id || index} className='mt-4' title={menu.title}>
                             <Link href={menu.path} className={`flex items-center justify-start gap-4 py-4 px-4 font-bold ${isActive(menu.path)? 'bg-green-100 px-4  rounded-lg text-green-300': ''}  cursor-pointer rounded-lg `}>
@@ -78,4 +100,4 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar
+export default dynamic (() => Promise.resolve(Sidebar), {ssr: false})

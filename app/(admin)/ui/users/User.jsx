@@ -13,7 +13,7 @@ const User = () => {
   }
 
   if (error){
-    return <p>something went wrong!</p>
+    return <p>{error?.data?.message}</p>
   }
 
   

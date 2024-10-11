@@ -7,7 +7,7 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import classNames from 'classnames';
 
 const VendorProduct = ({product, totalPages, page, setPage,  isFetching}) => {
-    const result=product.data.user.getProducts;
+    const result=product?.data?.user.getProducts;
     console.log(result, 'productresult')
 
     const formatDate = (dateString) => {
@@ -53,7 +53,8 @@ const VendorProduct = ({product, totalPages, page, setPage,  isFetching}) => {
                 ))}
             </TableBody> 
         </Table>
-        <div className="flex justify-end gap-2 mt-4"> {/* Added flex and gap-2 for spacing */}
+        <div className="flex justify-end gap-2 mt-4">
+            {/* Previous button */}
             <button
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
@@ -62,24 +63,36 @@ const VendorProduct = ({product, totalPages, page, setPage,  isFetching}) => {
             >
                 <FaAngleLeft />
             </button>
-            {[...Array(totalPages)].map((_, index) => (
-                <Button
+
+            {/* Calculate the start and end pages to display only 3 buttons */}
+            {(() => {
+                const startPage = Math.max(1, page - 1);
+                const endPage = Math.min(totalPages, startPage + 2);
+
+                return [...Array(endPage - startPage + 1)].map((_, index) => {
+                const currentPage = startPage + index;
+                return (
+                    <Button
                     variant="secondary"
-                    key={index + 1}
-                    onClick={() => setPage(index + 1)}
+                    key={currentPage}
+                    onClick={() => setPage(currentPage)}
                     className={classNames(
-                    ' px-3 rounded',
-                    {
-                        'bg-green-300 text-white': page === index + 1,
-                        'bg-gray-200': page !== index + 1,
-                    },
-                    'mx-1' // Added margin-x for spacing between buttons
-            )}
+                        'px-3 rounded',
+                        {
+                        'bg-green-300 text-white': page === currentPage,
+                        'bg-gray-200': page !== currentPage,
+                        },
+                        'mx-1'
+                    )}
                     isLoading={isFetching}
-                >
-                    {index + 1}
-                </Button>
-            ))}
+                    >
+                    {currentPage}
+                    </Button>
+                );
+                });
+            })()}
+
+            {/* Next button */}
             <button
                 onClick={() => setPage(page + 1)}
                 disabled={page === totalPages}

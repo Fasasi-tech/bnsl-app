@@ -13,9 +13,30 @@ export const Menus =[
     },
     {
         "id": 2,
+        "title":"Profile",
+        "icon":<MdDashboard />,
+        "path":'/vendor-profile'
+
+    },
+    {
+        "id": 3,
         "title":"RFQ",
         "icon":<MdDashboard />,
         "path":'/rfq'
+
+    },
+    {
+        "id": 4,
+        "title":"Reset Password",
+        "icon":<MdDashboard />,
+        "path":'/vendor-password'
+
+    },
+    {
+        "id": 5,
+        "title":"Create Vendor",
+        "icon":<MdDashboard />,
+        "path":'/create-vendor'
 
     }
 ]

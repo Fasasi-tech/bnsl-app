@@ -1,8 +1,25 @@
-import React from 'react'
-
-const EditProduct = () => {
-
+'use client'
+import React, {useState, useEffect} from 'react'
+import { Formik } from 'formik';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import TextEditor from './TextEditor';
+import { BsCloudUpload } from 'react-icons/bs';
+import { Button } from '@/components/ui/button';
+import Loader from '@/app/ui/utils/Loader';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { useEditProductMutation } from '@/app/ui/utils/slices/usersApiSlice';
+const EditProduct = ({product}) => {
+    const [preview, setPreview] = useState('');
+    const [editProduct] = useEditProductMutation()
     
+      
+      
     const handleCategoryChange = (value, setFieldValue) => {
         console.log("Selected Category:", value); // Debugging log
         setFieldValue('category', value); // Update Formik's state
@@ -12,7 +29,9 @@ const EditProduct = () => {
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         console.log('Submitting form with values:', values); // Debugging log
         try {
-          const res = await postProduct(values).unwrap();
+            // const productDetails = editor.getHTML();
+            const updatedValues = { ...values, id:product._id };
+          const res = await editProduct(updatedValues).unwrap();
           console.log(res);
           setSubmitting(false);
           toast.success('product created successfully!');
@@ -48,22 +67,22 @@ const EditProduct = () => {
 
     
   return (
-    <div className='flex justify-start'>
+    <div className='flex justify-start bg-white rounded-lg'>
     <div className='w-full'>
         <Formik
             initialValues={{
                 creditTerm:{
-                    value:null,
-                    unit:null
+                    value:product?.creditTerm.value||null,
+                    unit:product?.creditTerm.unit||null
                 },
                 leadTime:{
-                    value:null,
-                    unit:null
+                    value:product?.leadTime.value||null,
+                    unit:product?.leadTime.unit||null
                 },
-                name:"",
-                price:"",
-                productDetails:"",
-                category:"",
+                name:product?.name||"",
+                price:product?.price||"",
+                productDetails:product?.productDetails||"",
+                category:product?.category||"",
                 image:""
             }}
 
@@ -78,9 +97,9 @@ const EditProduct = () => {
                     errors.price = 'Required'
                 }
 
-                // if(!values.productDetails){
-                //     errors.productDetails = 'Required'
-                // }
+                if(!values.productDetails){
+                    errors.productDetails = 'Required'
+                }
 
                 if(!values.category){
                     errors.category = 'Required'
@@ -105,16 +124,16 @@ const EditProduct = () => {
             isSubmitting,
             setFieldValue
         }) =>(
-            <div className='w-full h-full  py-4 my-auto  mx-auto'>
+            <div className='w-full h-full  py-4 my-auto mx-auto'>
                 <form onSubmit ={handleSubmit}>
                     <div className='flex justify-between items-center font-medium mb-8'>
                         <div>
-                            <h1 className=' text-gray-500 text-2xl'>Add a new Product</h1>
+                            <h1 className=' text-gray-500 text-2xl'>Edit a new Product</h1>
                         </div>
                         <Button variant='' type='submit' className={`${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}>{isSubmitting ? <Loader/> : 'publish product'}</Button>
                     </div>
                     <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
-                        <div className='col-start-1 lg:col-span-2 bg-white py-4 md:py-12 px-4 md:px-12 shadow-lg rounded-lg'>
+                        <div className='col-start-1 lg:col-span-2  py-4 md:py-12 px-4 md:px-12 shadow-lg rounded-lg'>
                          <h1 className=' font-bold'>Product Information</h1>
                             <div className='grid-cols-4 items-center mt-4 gap-4 relative'>
                                 <Label htmlFor="Name" className='text-gray-500'>
@@ -184,7 +203,7 @@ const EditProduct = () => {
                                         onValueChange={(value) => setFieldValue('creditTerm.unit', value)}
                                         value={values.creditTerm.unit} // Bind Formik's value for unit
                                     >
-                                                                            <SelectTrigger className="w-full ">
+                                        <SelectTrigger className="w-full ">
                                             <SelectValue placeholder="" />
                                         </SelectTrigger>
                                         <SelectContent>

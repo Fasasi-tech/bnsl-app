@@ -1,6 +1,6 @@
 
 'use client';
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Formik } from 'formik';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -8,33 +8,40 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useEmailtMutation } from '@/app/ui/utils/slices/usersApiSlice';
 import UsersList from './UsersList';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Email = () => {
+    
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [email] = useEmailtMutation();
+    const [file, setFile] = useState(null);
 
+  
     const handleSubmit = async (values, { setSubmitting, resetForm, setFieldValue }) => {
         try {
             let attachment = null;
-            if (values.attachment) {
+          
+            if (file) {
                 const reader = new FileReader();
-                reader.readAsDataURL(values.attachment);
+                reader.readAsDataURL(file);
                 reader.onload = () => {
                     attachment = {
-                        filename: values.attachment.name,
+                        filename: file.name,
                         content: reader.result,
                     };
                     submitEmail(values, attachment, resetForm, setFieldValue);
                 };
                 reader.onerror = error => {
-                    alert('Error reading file', error);
+                    toast.error('Error reading file', error);
                     setSubmitting(false);
                 };
-            } else {
+            } 
+            else {
                 submitEmail(values, attachment, resetForm, setFieldValue);
             }
         } catch (err) {
-            alert(err?.message || 'An error occurred');
+            toast.success(err?.data?.message || 'An error occurred');
             setSubmitting(false);
         }
     };
@@ -49,9 +56,10 @@ const Email = () => {
             };
 
             await email(emailData).unwrap();
-            alert('Email submitted successfully');
+            toast.success('Email submitted successfully');
             resetForm();
             setSelectedUsers([]);
+            setFile(null);
             setFieldValue('attachment', null, false);
         } catch (err) {
             alert(err?.message || 'An error occurred');
@@ -91,9 +99,10 @@ const Email = () => {
                                 'application/vnd.ms-excel',
                                 'image/jpeg',
                                 'image/png',
-                                'image/gif'
+                                'image/gif',
+                                'image/JPG'
                             ];
-                            if (!allowedTypes.includes(values.attachment.type)) {
+                            if (!allowedTypes.includes(file.type)) {
                                 errors.attachment = 'Only .pdf, .xlsx, .xls, .docx, and image files are allowed';
                             }
                         }
@@ -155,6 +164,7 @@ const Email = () => {
                                         accept=".pdf,.xlsx,.docx,.jpeg,.jpg,.png,.xls,.gif"
                                         onChange={(event) => {
                                             const file = event.currentTarget.files[0];
+                                            setFile(file);
                                             setFieldValue("attachment", file);
                                         }}
                                         className='p-2 w-full outline-none dark:bg-slate-800 border border-solid border-slate-300 text-gray-500 h-12 bg-transparent'
@@ -177,6 +187,7 @@ const Email = () => {
             <div className='lg:w-2/3 w-full   bg-white rounded-lg shadow-sm p-8 max-h-[32rem] overflow-auto'>
                 <UsersList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
             </div>
+            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
         </div>
     );
 };

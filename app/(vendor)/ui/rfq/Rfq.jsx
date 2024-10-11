@@ -26,7 +26,7 @@ const Rfq = () => {
         return date.toLocaleDateString('en-US', options);
       };
   return (
-    <div>
+    <div className='bg-white dark:bg-slate-800 p-4 rounded-lg shadow-lg overflow-x-auto'>
         <Table>
             <TableHeader>
                 <TableRow>
