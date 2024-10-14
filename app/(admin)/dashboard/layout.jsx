@@ -6,11 +6,11 @@ const Layout = ({children, graph, aggregate, users, notifications, polar}) => {
             <div>{children}</div>
             <div className=''>{aggregate}</div>
             <div className='flex flex-wrap lg:flex-nowrap w-full justify-between gap-2 '>
-                <div className='w-full lg:w-[70%] '>
+                <div className='w-full lg:w-[60%] '>
                     {graph}
                     {users}
                 </div> 
-                <div className='sm:w-full lg:w-[30%]'>
+                <div className='sm:w-full lg:w-[35%]'>
                     {polar}
                     {notifications}
                 </div> 

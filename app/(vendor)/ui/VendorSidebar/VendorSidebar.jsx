@@ -34,7 +34,7 @@ const VendorSidebar = () => {
 
   return (
         <div className='flex h-screen relative bg-white dark:bg-slate-800'>
-            <div  className={`bg-white dark:bg-slate-800 p-5 pt-8 ${open ? 'w-72' : 'w-0'} duration-300 overflow-auto relative ${!open && 'hidden'}`}>
+            <div  className={`bg-white dark:bg-slate-800 p-5 pt-8 ${open ? 'w-60' : 'w-0'} duration-300 overflow-auto relative ${!open && 'hidden'}`}>
                 <div className='  text-green-300 text-2xl flex justify-end mt-4 cursor-pointer'>
                     <GiCancel onClick={handleActiveMenu} />
                 </div>

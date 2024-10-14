@@ -47,7 +47,7 @@ const Sidebar = () => {
   return (
     <>
     <div className='flex h-screen relative dark:bg-slate-800'>
-        <div className={`bg-white dark:bg-slate-800 p-5 pt-8 ${open ? 'w-72' : 'w-0'} duration-300 overflow-auto relative ${!open && 'hidden'}`}>
+        <div className={`bg-white dark:bg-slate-800 p-5 pt-8 ${open ? 'w-60' : 'w-0'} duration-300 overflow-auto relative ${!open && 'hidden'}`}>
             {/* <  MdCancel className={`text-green-300   rounded-full text-center text-5xl absolute -right-0 top-9 pr-4  cursor-pointer`}  onClick={() =>setOpen(!open)}/> */}
             {/* <div className= 'w-32'>
                 <Image
@@ -62,7 +62,7 @@ const Sidebar = () => {
                  <div className='  text-green-300 text-2xl flex justify-end mt-4 cursor-pointer'>
                     <GiCancel onClick={handleActiveMenu} />
                 </div>
-            <div className="mt-16">
+            <div className="mt-8">
                 {Menus.map((menu) => {
                      if (menu.title === 'Users' && (!userInfo || !['admin', 'superAdmin', 'R.O.A'].includes(userInfo.data.user.role))) {
                         return null;

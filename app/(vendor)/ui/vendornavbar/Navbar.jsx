@@ -47,7 +47,7 @@ const Navbar = () => {
 
   return (
     <div className={`w-full p-0 lg:px-4 ${isBlurred ? 'backdrop-blur-md' : ''}`}>
-      <div className='mt-8'>
+      <div className='mt-4'>
         <div className='bg-white dark:bg-slate-800 p-4 mx-4 py-4 rounded-md flex items-center justify-between align-center'>
          <FaBars
             className="text-green-300 text-3xl cursor-pointer"
