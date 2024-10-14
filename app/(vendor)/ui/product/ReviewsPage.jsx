@@ -19,7 +19,8 @@ const ReviewsPage = ({reviews, id}) => {
       };
   return (
     <div className='mt-4 relative'>
-        <div className='border-b-2 w-12 h-12 rounded-full absolute top-0 right-0 bg-green-300'>
+        <div className='border-b-2 w-12 h-12 rounded-full absolute top-0 right-0 bg-orange
+-300'>
          {/* <Button variant='outline'>Add Review</Button> */}
          <ReviewDialog id={id} />
         </div>

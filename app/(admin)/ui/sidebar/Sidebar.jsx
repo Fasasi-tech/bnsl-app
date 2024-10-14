@@ -48,7 +48,7 @@ const Sidebar = () => {
     <>
     <div className='flex h-screen relative dark:bg-slate-800'>
         <div className={`bg-white dark:bg-slate-800 p-5 pt-8 ${open ? 'w-56' : 'w-0'} duration-300 overflow-auto relative ${!open && 'hidden'}`}>
-            {/* <  MdCancel className={`text-green-300   rounded-full text-center text-5xl absolute -right-0 top-9 pr-4  cursor-pointer`}  onClick={() =>setOpen(!open)}/> */}
+            {/* <  MdCancel className={`text-orange-300   rounded-full text-center text-5xl absolute -right-0 top-9 pr-4  cursor-pointer`}  onClick={() =>setOpen(!open)}/> */}
             {/* <div className= 'w-32'>
                 <Image
                     src={logo}
@@ -59,7 +59,7 @@ const Sidebar = () => {
             {/* <button onClick={() => setOpen(!open)} className="p-2 ">
                 {open ? 'Close' : 'Open'}
                 </button> */}
-                 <div className='  text-green-300 text-2xl flex justify-end mt-4 cursor-pointer'>
+                 <div className='  text-orange-300 text-2xl flex justify-end mt-4 cursor-pointer'>
                     <GiCancel onClick={handleActiveMenu} />
                 </div>
             <div className="mt-8">
@@ -77,8 +77,8 @@ const Sidebar = () => {
                       }
                     return (
                         <div key={menu.id || index} className='mt-2' title={menu.title}>
-                            <Link href={menu.path} className={`flex items-center justify-start gap-4 py-3 px-2 font-bold ${isActive(menu.path)? 'bg-green-100 px-2  rounded-lg text-green-300': ''}  cursor-pointer rounded-lg `}>
-                                <span className="text-xl text-green-300">
+                            <Link href={menu.path} className={`flex items-center justify-start gap-4 py-3 px-2 font-bold ${isActive(menu.path)? 'bg-orange-100 px-2  rounded-lg text-orange-300': ''}  cursor-pointer rounded-lg `}>
+                                <span className="text-xl text-orange-300">
                                     {menu.icon}
                                 </span>
                                 <span className='text-sm text-gray-500'>
@@ -89,7 +89,7 @@ const Sidebar = () => {
                     )
                 })}
                 <div  className="flex items-center justify-start gap-4 py-4 px-2 font-bold bg-gray-200 dark:bg-slate-800 rounded-lg mt-8 cursor-pointer" onClick={handleLogout} >
-                    <span className="text-xl text-green-300">
+                    <span className="text-xl text-orange-300">
                         <CiLogout />
                     </span>
                     <span className={`${!open && "hidden"} text-sm text-gray-500`}>

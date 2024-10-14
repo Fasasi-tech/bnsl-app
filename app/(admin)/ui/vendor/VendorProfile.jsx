@@ -68,11 +68,11 @@ const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) 
                         alt=''
                         layout="fill"
                         objectFit="cover"
-                        className="rounded-lg border-4 border-green-300 max-w-full h-auto "
+                        className="rounded-lg border-4 border-orange-300 max-w-full h-auto "
                         />
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-green-200 text-white  font-bold rounded-md">
-                            <p className='text-4xl lg:text-6xl rounded-full bg-green-400 font-serif'></p>  
+                        <div className="w-full h-full flex items-center justify-center bg-orange-200 text-white  font-bold rounded-md">
+                            <p className='text-4xl lg:text-6xl rounded-full bg-orange-400 font-serif'></p>  
                         </div>
                     )}
                     

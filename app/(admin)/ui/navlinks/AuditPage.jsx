@@ -81,7 +81,7 @@ const AuditPage = () => {
                             <div className='flex items-center gap-2'>
                                 <Avatar>
                                 <AvatarImage src={i?.previousDetails.logo?.url} alt='avatar'/>
-                                <AvatarFallback className='bg-green-300'></AvatarFallback>
+                                <AvatarFallback className='bg-orange-300'></AvatarFallback>
                                 </Avatar>
                                 <div>
                                     <p className='text-gray-500  font-medium'>{`${i.previousDetails.name}`}</p>
@@ -104,7 +104,7 @@ const AuditPage = () => {
                 <button
                     onClick={() => setPage(page - 1)}
                     disabled={page === 1}
-                    className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+                    className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
                     isLoading={isFetching}
                 >
                     <FaAngleLeft />
@@ -125,7 +125,7 @@ const AuditPage = () => {
                         className={classNames(
                             'px-3 rounded',
                             {
-                            'bg-green-300 text-white': page === currentPage,
+                            'bg-orange-300 text-white': page === currentPage,
                             'bg-gray-200': page !== currentPage,
                             },
                             'mx-1'
@@ -142,7 +142,8 @@ const AuditPage = () => {
                 <button
                     onClick={() => setPage(page + 1)}
                     disabled={page === totalPages}
-                    className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+                    className="bg-orange
+-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
                     isLoading={isFetching}
                 >
                     <FaAngleRight />

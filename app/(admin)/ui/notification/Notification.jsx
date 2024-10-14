@@ -14,7 +14,7 @@ const Notification = () => {
     }
 
     if (statsError){
-        return <p>error</p>
+        return <p>{error?.data?.message}</p>
     }
 
     const timeAgo = (dateString) => {
@@ -43,7 +43,7 @@ const Notification = () => {
         }
     };
 
-    const colors = ['bg-blue-500', 'bg-red-500', 'bg-green-500', 'bg-yellow-500', 'bg-orange-500'];
+    const colors = ['bg-blue-500', 'bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-orange-500'];
 
   return (
     <div>
@@ -55,7 +55,7 @@ const Notification = () => {
                         <div>
                             <p className=' text-gray-400 font-bold'>{p.title}</p>
                             <p className='text-sm text-gray-400'>{p.message}</p>
-                            <p className='text-xs text-green-300 font-bold'>{timeAgo(p.createdAt)}</p>
+                            <p className='text-xs text-orange-300 font-bold'>{timeAgo(p.createdAt)}</p>
                         </div>
                     </div>
                 ))

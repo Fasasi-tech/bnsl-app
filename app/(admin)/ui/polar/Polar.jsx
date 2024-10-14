@@ -15,7 +15,7 @@ const Polar = () => {
     }
 
     if (error){
-        return <p>something went wrong!</p>
+        return <p>{error?.data?.message}</p>
     }
     const aggregateResult = data.data.user.map((i) =>({
         label: i._id,
@@ -33,18 +33,23 @@ const Polar = () => {
             label: '',
             data: counts,
             backgroundColor: [
-              '#26501D',
-              '#3D802E',
-              'rgb(255, 205, 86)',
-              'rgb(201, 203, 207)',
-              'rgb(54, 162, 235)',
-              '#00FFFF',
-              '#3D802C',
-              '#FF00FF',
-              '#FFC0CB',
-              '#FFD700',
-              '#87CEEB',
-              '#A52A2A'
+              // '#26501D',
+              // '#3D802E',
+              // 'rgb(255, 205, 86)',
+              // 'rgb(201, 203, 207)',
+              // 'rgb(54, 162, 235)',
+              // '#00FFFF',
+              // '#3D802C',
+              // '#FF00FF',
+              // '#FFC0CB',
+              // '#FFD700',
+              // '#87CEEB',
+              // '#A52A2A'
+             '#FFB74D',
+             '#FF9E40',
+             '#FFC400',
+             '#FF9800',
+             '#FF8A00',
             ],
           },
         ],

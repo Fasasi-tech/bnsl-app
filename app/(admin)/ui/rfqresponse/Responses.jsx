@@ -28,7 +28,7 @@ const Responses = () => {
     const endPage = Math.min(startPage + batchSize - 1, totalPages);
     
     if (result?.length === 0) {
-        return <div className='font-bold text-green-300'>No RFQs available.</div>;
+        return <div className='font-bold text-orange-300'>No RFQs available.</div>;
     }
 
     const formatDate = (dateString) => {
@@ -75,7 +75,7 @@ const Responses = () => {
         <button
             onClick={() => setPage(page - 1)}
             disabled={page === 1}
-            className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+            className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
             isLoading={isFetching}
         >
             <FaAngleLeft />
@@ -96,7 +96,7 @@ const Responses = () => {
                 className={classNames(
                     'px-3 rounded',
                     {
-                    'bg-green-300 text-white': page === currentPage,
+                    'bg-orange-300 text-white': page === currentPage,
                     'bg-gray-200': page !== currentPage,
                     },
                     'mx-1'
@@ -113,7 +113,7 @@ const Responses = () => {
         <button
             onClick={() => setPage(page + 1)}
             disabled={page === totalPages}
-            className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+            className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
             isLoading={isFetching}
         >
             <FaAngleRight />

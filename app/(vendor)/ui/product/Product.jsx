@@ -143,7 +143,7 @@ const Product = () => {
             <button
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
-                className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+                className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
                 isLoading={isFetching}
             >
                 <FaAngleLeft />
@@ -156,7 +156,7 @@ const Product = () => {
                     className={classNames(
                     ' px-3 rounded',
                     {
-                        'bg-green-300 text-white': page === index + 1,
+                        'bg-orange-300 text-white': page === index + 1,
                         'bg-gray-200': page !== index + 1,
                     },
                     'mx-1' // Added margin-x for spacing between buttons
@@ -169,7 +169,7 @@ const Product = () => {
             <button
                 onClick={() => setPage(page + 1)}
                 disabled={page === totalPages}
-                className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+                className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
                 isLoading={isFetching}
             >
                 <FaAngleRight />

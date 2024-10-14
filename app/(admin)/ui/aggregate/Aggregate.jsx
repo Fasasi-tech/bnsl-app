@@ -16,7 +16,7 @@ const Aggregate = () => {
     }
 
     if (error){
-        return <p>error</p>
+        return <p>{error?.data?.message}</p>
     }
 
 
@@ -32,7 +32,7 @@ const Aggregate = () => {
     <div className=' md:flex mb-2 flex-wrap gap-4 justify-between  text-center'>
         <div className='bg-white dark:bg-slate-800 p-2 md:p-4 rounded-md shadow-lg  mb-4  max-h-32 flex-auto'>
             <div className='flex items-center gap-2 justify-start  '>
-            <div className='bg-green-200 p-1 rounded-sm'>
+            <div className='bg-orange-200 p-1 rounded-sm'>
                 <Image
                     src={admin}
                     alt='logo'
@@ -41,11 +41,11 @@ const Aggregate = () => {
             </div>
                 <p className='text-gray-400 font-medium'>Administrators</p> 
             </div>  
-            <h1 className='text-green-300  text-[40px]'>{aggregate('admin')}</h1>
+            <h1 className='text-orange-300  text-[40px]'>{aggregate('admin')}</h1>
         </div>
         <div className='bg-white dark:bg-slate-800 p-2 md:p-4 rounded-md shadow-lg mb-4  max-h-32 flex-auto'>
             <div className='flex items-center gap-2 justify-start  '>
-            <div className='bg-green-200 p-1 rounded-sm'>
+            <div className='bg-orange-200 p-1 rounded-sm'>
                 <Image
                     src={market}
                     alt='logo'
@@ -54,11 +54,11 @@ const Aggregate = () => {
             </div>
                 <p className='text-gray-400 font-medium'>vendors</p> 
             </div>  
-            <h1 className='text-green-300  text-[40px]'>{aggregate('vendor')}</h1>
+            <h1 className='text-orange-300  text-[40px]'>{aggregate('vendor')}</h1>
         </div>
         <div className='bg-white dark:bg-slate-800 p-2 md:p-4 rounded-md shadow-lg mb-4  max-h-32 flex-auto'>
             <div className='flex items-center gap-2 justify-start  '>
-            <div className='bg-green-200 p-1 rounded-sm'>
+            <div className='bg-orange-200 p-1 rounded-sm'>
                 <Image
                     src={Logo}
                     alt='logo'
@@ -67,11 +67,11 @@ const Aggregate = () => {
             </div>
                 <p className='text-gray-400 font-medium'>Users</p> 
             </div>  
-            <h1 className='text-green-300  text-[40px]'>{aggregate('user')}</h1>
+            <h1 className='text-orange-300  text-[40px]'>{aggregate('user')}</h1>
         </div>
         <div className='bg-white dark:bg-slate-800 p-2 md:p-4 rounded-md shadow-lg mb-4  max-h-32 flex-auto'>
             <div className='flex items-center gap-2 justify-start  '>
-            <div className='bg-green-200 p-1 rounded-sm'>
+            <div className='bg-orange-200 p-1 rounded-sm'>
                 <Image
                     src={roa}
                     alt='logo'
@@ -80,7 +80,7 @@ const Aggregate = () => {
             </div>
                 <p className='text-gray-400 font-medium'>R.O.A</p> 
             </div>  
-            <h1 className='text-green-300  text-[40px]'>{aggregate('R.O.A')}</h1>
+            <h1 className='text-orange-300  text-[40px]'>{aggregate('R.O.A')}</h1>
         </div>
     </div>
   )

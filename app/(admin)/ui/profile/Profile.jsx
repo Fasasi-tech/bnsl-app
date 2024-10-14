@@ -55,7 +55,7 @@ const Profile = () => {
                       height={160}
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-green-200 text-white font-bold rounded-md">
+                    <div className="w-full h-full flex items-center justify-center bg-orange-200 text-white font-bold rounded-md">
                       <p className="text-4xl lg:text-6xl font-serif">
                         {`${initials}`}
                       </p>

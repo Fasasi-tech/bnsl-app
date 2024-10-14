@@ -17,11 +17,11 @@ const page = ({params}) => {
     }
 
     if (error || vendorError){
-        return <p className='font-bold text-green-300'>error.data.message</p>
+        return <p className='font-bold text-orange-300'>error.data.message</p>
     }
 
     if (!vendor.data.user){
-      return <div className='text-green-300 text-lg font-bold pl-8'>No Vendor</div>
+      return <div className='text-orange-300 text-lg font-bold pl-8'>No Vendor</div>
     }
     
     const totalPages= Math.ceil(vendor.data.user.result / ITEMS_PER_PAGE)

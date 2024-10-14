@@ -50,7 +50,8 @@ const Navbar = () => {
       <div className='mt-4'>
         <div className='bg-white dark:bg-slate-800 p-4 mx-4 py-4 rounded-md flex items-center justify-between align-center'>
          <FaBars
-            className="text-green-300 text-3xl cursor-pointer"
+            className="text-orange
+-300 text-3xl cursor-pointer"
             onClick={handleActiveMenu}
           />
         </div>

@@ -30,7 +30,7 @@ const ProductAuditLog = ({id}) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className='text-green-300'>Audit Log</DialogTitle>
+          <DialogTitle className='text-orange-300'>Audit Log</DialogTitle>
         </DialogHeader>
         {/* <DialogDescription>
          
@@ -41,7 +41,7 @@ const ProductAuditLog = ({id}) => {
                     <p className='font-bold text-red-500'>Error loading data</p>
                 ) : (
                     <div>
-                      <p className='font-bold text-green-300  border-green-300 border-b'>Previous Details</p>
+                      <p className='font-bold text-orange-300  border-orange-300 border-b'>Previous Details</p>
                       <div className='pt-2'>
                         <p className=' text-gray-500 pb-2 '><span className='text-gray-400 font-bold'>Product Name: </span> {data?.data?.user?.previousDetails?.name}</p>
                         <p className=' text-gray-500 pb-2 '><span className='text-gray-400 font-bold'>price: </span>  {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(

@@ -15,7 +15,7 @@ const VendorActions = ({userId}) => {
       <PopoverContent className="w-32">
         <div className="grid gap-4">
           <div className="grid gap-2">
-             <Link href={`/vendor/${userId}/profile`}><p className='text-sm text-gray-500 flex items-center justify-start gap-2 hover:text-green-300'><IoEyeOutline className='text-lg text-green-300' /> View</p></Link>
+             <Link href={`/vendor/${userId}/profile`}><p className='text-sm text-gray-500 flex items-center justify-start gap-2 hover:text-orange-300'><IoEyeOutline className='text-lg text-orange-300' /> View</p></Link>
           </div>
         </div>
       </PopoverContent>

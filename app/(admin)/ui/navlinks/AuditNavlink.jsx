@@ -8,10 +8,10 @@ const AuditNavlink = ({link}) => {
   return (
     <div>
         <Link href={link.href} 
-            className={`relative ${pathName ===link.href ? 'text-green-300 ':""}`} 
+            className={`relative ${pathName ===link.href ? 'text-orange-300 ':""}`} 
         >
             {link.name}
-            {pathName ===link.href && <span className='absolute left-0 -bottom-2 bg-green-300 w-8 h-1.5 transition-all'></span> }
+            {pathName ===link.href && <span className='absolute left-0 -bottom-2 bg-orange-300 w-8 h-1.5 transition-all'></span> }
         </Link>
     </div>
   )

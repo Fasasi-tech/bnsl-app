@@ -27,7 +27,7 @@ const RFQresponseActions = ({userId}) => {
                 <p className='text-red-500 font-semibold'> {error?.data?.message || "Something went wrong"}</p>
             ) :(
             <div>
-                <p className='text-green-500 bg-green-100 p-2 rounded-lg '>RFQ Response</p>
+                <p className='text-orange-500 bg-orange-100 p-2 rounded-lg '>RFQ Response</p>
                 <p className='text-sm pb-2 pt-4'>Information: {data?.data?.user?.AdditionalInfo}</p>
                 <p  className='text-sm pb-2'>Customer's Email: {data?.data?.user?.customerEmail}</p>
                 <p  className='text-sm pb-2'>Product: {data?.data?.user?.product.name}</p>

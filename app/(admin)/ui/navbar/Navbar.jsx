@@ -52,11 +52,11 @@ const Navbar = () => {
       <div className='mt-4'>
         <div className='bg-white dark:bg-slate-800 p-4 mx-4 py-4 rounded-md flex items-center justify-between align-center'>
           <FaBars
-            className="text-green-300 text-3xl cursor-pointer"
+            className="text-orange-300 text-3xl cursor-pointer"
             onClick={handleActiveMenu}
           />
          <div className='relative'>
-            <IoIosNotificationsOutline className='text-3xl text-green-300' />
+            <IoIosNotificationsOutline className='text-3xl text-orange-300' />
             <span className='absolute -top-2 left-3 bg-red-700 w-5 h-5 flex items-center justify-center rounded-full text-white text-sm'>
               {notificationCount > 0 ? notificationCount : '0'}
             </span>

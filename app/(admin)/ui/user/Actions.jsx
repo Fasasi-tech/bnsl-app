@@ -15,8 +15,8 @@ const Actions = ({userId}) => {
       <PopoverContent className="w-32">
         <div className="grid gap-4">
           <div className="grid gap-2">
-             <Link href={`/users/${userId}/profile`}><p className='text-sm text-gray-500 flex items-center justify-start gap-2 hover:text-green-300'><IoEyeOutline className='text-lg text-green-300' /> View</p></Link>
-              {/* <p className='text-sm text-gray-500 flex items-center justify-start gap-2 hover:text-green-300'><MdDeleteOutline className='text-lg  text-green-300' /> Delete</p> */}
+             <Link href={`/users/${userId}/profile`}><p className='text-sm text-gray-500 flex items-center justify-start gap-2 hover:text-orange-300'><IoEyeOutline className='text-lg text-orange-300' /> View</p></Link>
+              {/* <p className='text-sm text-gray-500 flex items-center justify-start gap-2 hover:text-orange-300'><MdDeleteOutline className='text-lg  text-orange-300' /> Delete</p> */}
           </div>
         </div>
       </PopoverContent>

@@ -99,7 +99,7 @@ const Users = () => {
 
 
     if (!users?.data.user){
-        return <div className='text-green-300 text-lg font-bold pl-8'>No Users</div>
+        return <div className='text-orange-300 text-lg font-bold pl-8'>No Users</div>
     }
 
     const totalPages= Math.ceil(users.data.user.result / ITEMS_PER_PAGE)
@@ -197,7 +197,7 @@ const Users = () => {
                         </div>
                     </TableCell>
                     <TableCell className="w-1/6 text-sm text-gray-400">{i.role}</TableCell>
-                    <TableCell className='w-1/6 '><p className={`inline-block text-sm px-2 rounded-sm ${i.active===true ?'bg-green-100 text-green-300 ':'bg-red-100 text-red-300'}`}>{i.active === true ? 'Active' :'inActive'}</p></TableCell>
+                    <TableCell className='w-1/6 '><p className={`inline-block text-sm px-2 rounded-sm ${i.active===true ?'bg-orange-100 text-orange-300 ':'bg-red-100 text-red-300'}`}>{i.active === true ? 'Active' :'inActive'}</p></TableCell>
                     <TableCell className="w-1/6 text-sm text-gray-400">{formatDate(i.createdAt)}</TableCell>
                     {userInfo && (userInfo?.data?.user?.role==='admin'|| userInfo?.data?.user?.role==='superAdmin') ?<TableCell className="w-1/6 text-sm text-gray-400"><Actions userId={i._id}/></TableCell>:''}
                 </TableRow>
@@ -209,7 +209,7 @@ const Users = () => {
             <button
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
-                className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+                className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
                 isLoading={isFetching}
             >
                 <FaAngleLeft />
@@ -222,7 +222,7 @@ const Users = () => {
                     className={classNames(
                     ' px-3 rounded',
                     {
-                        'bg-green-300 text-white': page === index + 1,
+                        'bg-orange-300 text-white': page === index + 1,
                         'bg-gray-200': page !== index + 1,
                     },
                     'mx-1' // Added margin-x for spacing between buttons
@@ -235,7 +235,7 @@ const Users = () => {
             <button
                 onClick={() => setPage(page + 1)}
                 disabled={page === totalPages}
-                className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+                className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
                 isLoading={isFetching}
             >
                 <FaAngleRight />

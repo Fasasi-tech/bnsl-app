@@ -84,7 +84,7 @@ const Login = () => {
                     className='w-24'
                 />
             </div>
-            <p className='mt-12 text-2xl  text-green-500'>Welcome to BNSL! 👋</p>
+            <p className='mt-12 text-2xl  text-orange-500'>Welcome to Reelservice! 👋</p>
             <p className='mt-4 text-gray-500'>Please sign-in to your account and start the adventure</p>
             <Formik initialValues={{
                 email:'',
@@ -137,7 +137,8 @@ const Login = () => {
                             {touched.email && errors.email ?<div className='text-red-500 pl-2 font-semibold'>{errors.email}</div>: null}
                     </div>
                     <div className='mt-4 relative'>
-                        <span className='flex items-center justify-between'><label className='block text-base mb-2 text-gray-500 pl-2 '>Password</label> <p className='text-sm block text-green-500'><Link href='/forgot-password'>Forgot password?</Link></p></span>
+                        <span className='flex items-center justify-between'><label className='block text-base mb-2 text-gray-500 pl-2 '>Password</label> <p className='text-sm block text-orange
+-500'><Link href='/forgot-password'>Forgot password?</Link></p></span>
                         <Input
                         type= {showPassword ? 'text':'password'}
                         id='password'

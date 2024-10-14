@@ -26,7 +26,7 @@ const Vendor = () => {
     }
 
     if (error){
-        return <p className='text-green-300 font-semibold '>{`${error?.data?.message}`}</p>
+        return <p className='text-orange-300 font-semibold '>{`${error?.data?.message}`}</p>
     }
 
     const formatDate = (dateString) => {
@@ -38,7 +38,7 @@ const Vendor = () => {
 
 
     if (!users?.data.user){
-        return <div className='text-green-300 text-lg font-bold'>No Users</div>
+        return <div className='text-orange-300 text-lg font-bold'>No Users</div>
     }
 
     const handleChange = (e) => {
@@ -131,7 +131,7 @@ const Vendor = () => {
                     <div className='flex items-center gap-2'>
                         <Avatar>
                         <AvatarImage src={i?.logo?.url} alt='avatar'/>
-                        <AvatarFallback className='bg-green-300' />
+                        <AvatarFallback className='bg-orange-300' />
                         </Avatar>
                     </div>
                 </TableCell>
@@ -149,7 +149,7 @@ const Vendor = () => {
             <button
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
-                className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+                className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
                 isLoading={isFetching}
             >
                 <FaAngleLeft />
@@ -162,7 +162,7 @@ const Vendor = () => {
                     className={classNames(
                     ' px-3 rounded',
                     {
-                        'bg-green-300 text-white': page === index + 1,
+                        'bg-orange-300 text-white': page === index + 1,
                         'bg-gray-200': page !== index + 1,
                     },
                     'mx-1' // Added margin-x for spacing between buttons
@@ -175,7 +175,7 @@ const Vendor = () => {
             <button
                 onClick={() => setPage(page + 1)}
                 disabled={page === totalPages}
-                className="bg-green-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
+                className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
                 isLoading={isFetching}
             >
                 <FaAngleRight />

@@ -44,7 +44,7 @@ const Password = () => {
                     className='w-24'
                 />
             </div>
-            <p className='mt-12 text-2xl  text-green-500'>Forgot Password? 🔒</p>
+            <p className='mt-12 text-2xl  text-orange-500'>Forgot Password? 🔒</p>
             <p className='mt-4 text-gray-500'>Enter your email and we'll send you instructions to reset your password</p>
             <Formik initialValues={{
                 email:'',
@@ -94,7 +94,7 @@ const Password = () => {
                         <Button variant='destructive' type='submit'className={` ${ isSubmitting? 'opacity-50 cursor-not-allowed':''} `} disabled={ isSubmitting}> {isSubmitting ? <Loader /> : 'Send Reset Link'}</Button>
                     </div>
                      <div className='mt-4'>
-                        <p className='text-sm block text-green-500'>
+                        <p className='text-sm block text-orange-500'>
                             <Link href='/'>
                                 <span className='flex items-center justify-center gap-2'><IoIosArrowBack/> Back to login </span>
                                 </Link>

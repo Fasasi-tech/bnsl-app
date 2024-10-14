@@ -15,7 +15,7 @@ const Audit = () => {
     }
 
     if (error){
-        return <p className='text-green-300 font-semibold '>{`${error.message}`}</p>
+        return <p className='text-orange-300 font-semibold '>{`${error.message}`}</p>
     }
   return (
     <div>Audit</div>

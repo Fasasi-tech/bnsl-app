@@ -59,7 +59,7 @@ const ChangePassword = () => {
                     className='w-24'
                 />
             </div>
-            <p className='mt-12 text-2xl  text-green-500'>Welcome to BNSL! 👋</p>
+            <p className='mt-12 text-2xl  text-orange-500'>Welcome to Reelservice! 👋</p>
             <p className='mt-4 text-gray-500'>Please sign-in to your account and start the adventure</p>
             <Formik initialValues={{
                 currentPassword:'',
@@ -97,7 +97,7 @@ const ChangePassword = () => {
 
                 <form className='mt-8' onSubmit={handleSubmit} >
                      <div className='mt-4 relative'>
-                        <span className='flex items-center justify-between'><label className='block text-base mb-2 text-gray-500 pl-2 '>Current Password</label> <p className='text-sm block text-green-500'><Link href='/forgot-password'>Forgot password?</Link></p></span>
+                        <span className='flex items-center justify-between'><label className='block text-base mb-2 text-gray-500 pl-2 '>Current Password</label> <p className='text-sm block text-orange-500'><Link href='/forgot-password'>Forgot password?</Link></p></span>
                         <Input
                         type= {showPassword ? 'text':'password'}
                         id='currentPassword'
@@ -108,12 +108,12 @@ const ChangePassword = () => {
                         placeholder='................'
                         />
                         <div className='z-50 absolute top-10 right-2'>
-                            <button type='button' onClick={handleToggle}>{showPassword ? <FiEyeOff className='text-2xl text-[#83ed6b] '/> : <FiEye className='text-2xl text-[#83ed6b]' />  }</button> 
+                            <button type='button' onClick={handleToggle}>{showPassword ? <FiEyeOff className='text-2xl text-orange-300 '/> : <FiEye className='text-2xl text-orange-300' />  }</button> 
                         </div>
                         {touched.currentPassword && errors.currentPassword ?<div className='text-red-500 pl-2 font-semibold'>{errors.currentPassword}</div>: null}
                     </div>
                     <div className='mt-4 relative'>
-                        <span className='flex items-center justify-between'><label className='block text-base mb-2 text-gray-500 pl-2 '>New Password</label> <p className='text-sm block text-green-500'><Link href='/forgot-password'>Forgot password?</Link></p></span>
+                        <span className='flex items-center justify-between'><label className='block text-base mb-2 text-gray-500 pl-2 '>New Password</label> <p className='text-sm block text-orange-500'><Link href='/forgot-password'>Forgot password?</Link></p></span>
                         <Input
                         type= {showPassword ? 'text':'password'}
                         id='password'
@@ -124,7 +124,7 @@ const ChangePassword = () => {
                         placeholder='................'
                         />
                         <div className='z-50 absolute top-10 right-2'>
-                            <button type='button' onClick={handleToggle}>{showPassword ? <FiEyeOff className='text-2xl text-[#83ed6b] '/> : <FiEye className='text-2xl text-[#83ed6b]' />  }</button> 
+                            <button type='button' onClick={handleToggle}>{showPassword ? <FiEyeOff className='text-2xl text-orange-300 '/> : <FiEye className='text-2xl text-orange-300' />  }</button> 
                         </div>
                         {touched.password && errors.password ?<div className='text-red-500 pl-2 font-semibold'>{errors.password}</div>: null}
                     </div>
