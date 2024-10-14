@@ -10,7 +10,7 @@ const Layout = ({children, graph, aggregate, users, notifications, polar}) => {
                     {graph}
                     {users}
                 </div> 
-                <div className='sm:w-full lg:w-[40%]'>
+                <div className='w-full lg:w-[40%]'>
                     {polar}
                     {notifications}
                 </div> 
