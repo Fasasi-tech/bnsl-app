@@ -1,7 +1,7 @@
 'use client'
 import React, {useState} from 'react'
 import Image from 'next/image'
-import Logo from '../../../public/bnsl.png'
+import Logo from '../../../public/reeltechs.png'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { FiEye, FiEyeOff } from "react-icons/fi";
@@ -52,15 +52,14 @@ const ChangePassword = () => {
   return (
     <div className='items-center justify-center  flex flex-col  ' >
         <div className='bg-white w-full md:w-[50%] lg:w-1/3 rounded-lg pt-6 px-2 md:px-6  pb-16'>
-            {/* <div className='w-full h-16 items-center justify-center flex'>
+            <div className='w-full h-16 items-center justify-center flex'>
                 <Image
                     src={Logo}
                     alt='Image'
                     className='w-24'
                 />
-            </div> */}
-            <p className='mt-12 text-2xl  text-orange-500'>Welcome to Reelservice! 👋</p>
-            <p className='mt-4 text-gray-500'>change your password</p>
+            </div>
+            <p className='mt-8 text-2xl  text-orange-500'>Welcome to Reelservice! 👋</p>
             <Formik initialValues={{
                 currentPassword:'',
                 password:''
@@ -97,7 +96,7 @@ const ChangePassword = () => {
 
                 <form className='mt-8' onSubmit={handleSubmit} >
                      <div className='mt-4 relative'>
-                        <span className='flex items-center justify-between'><label className='block text-base mb-2 text-gray-500 pl-2 '>Current Password</label> <p className='text-sm block text-orange-500'><Link href='/forgot-password'>Forgot password?</Link></p></span>
+                     <span className='flex items-center justify-between'><label className='block text-base mb-2 text-gray-500 pl-2 '>Current Password</label></span>
                         <Input
                         type= {showPassword ? 'text':'password'}
                         id='currentPassword'
