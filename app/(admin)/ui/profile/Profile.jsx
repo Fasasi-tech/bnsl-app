@@ -99,7 +99,7 @@ const Profile = () => {
              <p className="text-sm text-gray-400"> {formatDate(result.createdAt)}</p>
          </div>
        </div>
-       <div className='pt-8 flex items-center gap-4 md:gap-8 justify-start'>
+       <div className='pt-4 flex items-center gap-4 md:gap-8 justify-start'>
          <EditProfile data={result} />
      </div>
      {/* <p className='hidden'>{selectedUser && <EditProfile user={selectedUser} onClose={() => setSelectedUser(null)}/>  }</p> */}
