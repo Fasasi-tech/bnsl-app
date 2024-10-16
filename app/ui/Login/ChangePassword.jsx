@@ -51,7 +51,7 @@ const ChangePassword = () => {
 
   return (
     <div className='items-center justify-center  flex flex-col  ' >
-        <div className='bg-white w-full md:w-[50%] rounded-lg pt-6 px-2 md:px-6  pb-16'>
+        <div className='bg-white w-full md:w-[50%] lg:w-1/3 rounded-lg pt-6 px-2 md:px-6  pb-16'>
             {/* <div className='w-full h-16 items-center justify-center flex'>
                 <Image
                     src={Logo}
