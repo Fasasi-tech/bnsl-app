@@ -38,10 +38,11 @@ const Email = () => {
                 };
             } 
             else {
-                submitEmail(values, attachment, resetForm, setFieldValue);
+                setSubmitting(true)
+                await submitEmail(values, attachment, resetForm, setFieldValue);
             }
         } catch (err) {
-            toast.success(err?.data?.message || 'An error occurred');
+            toast.error(err?.data?.message || 'An error occurred');
             setSubmitting(false);
         }
     };
@@ -172,7 +173,7 @@ const Email = () => {
                                     {touched.attachment && errors.attachment ? <div className='text-red-500 pl-2 font-semibold'>{errors.attachment}</div> : null}
                                 </div>
                                 <div className=''>
-                                    <Button type="submit" variant="destructive" className={`${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
+                                    <button type="submit" className={`bg-orange-300  w-full  text-white  rounded-lg py-4 ${ isSubmitting? 'opacity-50 cursor-not-allowed':''} `} disabled={ isSubmitting}> {isSubmitting ? 'Submitting...' : 'Submit'}</button>
                                 </div>
                                 <Input
                                     type="hidden"
