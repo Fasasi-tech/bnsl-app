@@ -77,13 +77,13 @@ const Login = () => {
   return (
     <div className='items-center justify-center h-screen flex flex-col ' >
         <div className='bg-white w-full md:w-[42%] lg:w-1/4 rounded-lg pt-6 px-6  pb-16'>
-            <div className='w-full h-16 items-center justify-center flex'>
+            {/* <div className='w-full h-16 items-center justify-center flex'>
                 <Image
                     src={Logo}
                     alt='Image'
                     className='w-24'
                 />
-            </div>
+            </div> */}
             <p className='mt-12 text-2xl  text-orange-500'>Welcome to Reelservice! 👋</p>
             <p className='mt-4 text-gray-500'>Please sign-in to your account and start the adventure</p>
             <Formik initialValues={{

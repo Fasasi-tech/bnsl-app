@@ -67,7 +67,7 @@ useEffect(() => {
         <div className='fixed top-0  z-40 dark:bg-slate-800 w-full flex flex-wrap h-[64px]'  style={{ width: open && screenWidth >= 768 ? 'calc(100% - 14rem)' : '100%' }} >
           <Navbar />
         </div>
-        <div style={{ paddingTop: navbarHeight }} className='mt-4'>
+        <div style={{ paddingTop: navbarHeight }} className='mt-2'>
           {children}
         </div>
       </div>

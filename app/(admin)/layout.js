@@ -1,8 +1,5 @@
 import { Inter } from 'next/font/google'
 import StoreProvider from '../redux/provider'
-
-import Sidebar from './ui/sidebar/Sidebar'
-import Navbar from './ui/navbar/Navbar'
 import LayoutContent from './ui/LayoutContent'
 import styles from './adminLayout.module.css'
 import { ContextProvider } from './context/ContextProvider'
