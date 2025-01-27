@@ -63,7 +63,7 @@ const dispatch = useDispatch()
             <VendorSidebar />
         </div>
         <div className={`  min-h-screen w-full overflow-x-auto  ${open ? 'md:ml-56 ':'flex-1'}`}>
-            <div className='fixed top-0  z-40  dark:bg-slate-800 w-full flex flex-wrap h-[64px]'  style={{ width: open && screenWidth >= 768 ? 'calc(100% - 15rem)' : '100%' }}>
+            <div className='fixed top-0  z-40  dark:bg-slate-800 w-full flex flex-wrap h-[64px]'  style={{ width: open && screenWidth >= 768 ? 'calc(100% - 14rem)' : '100%' }}>
                 <Navbar />
             </div>
             <div style={{ paddingTop: navbarHeight }} className='mt-4'>

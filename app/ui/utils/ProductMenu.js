@@ -27,13 +27,20 @@ export const Menus =[
     },
     {
         "id": 4,
+        "title":"RFQ Response",
+        "icon":<MdDashboard />,
+        "path":'/rfq-response'
+
+    },
+    {
+        "id": 5,
         "title":"Reset Password",
         "icon":<MdDashboard />,
         "path":'/vendor-password'
 
     },
     {
-        "id": 5,
+        "id": 6,
         "title":"Create Vendor",
         "icon":<MdDashboard />,
         "path":'/create-vendor'

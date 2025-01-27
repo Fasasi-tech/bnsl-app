@@ -68,7 +68,7 @@ const RFQAction = ({userId}) => {
                 <DialogTitle>
                     RFQ Details
                 </DialogTitle>
-                <DialogDescription className="text-sm text-gray-500">
+                <DialogDescription className="text-sm">
                     Detailed information about the selected RFQ.
                 </DialogDescription>
             </DialogHeader>

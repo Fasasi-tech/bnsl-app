@@ -46,11 +46,12 @@ const VendorSidebar = () => {
 
                             </div>
                             <div key={menu.id || index} className='mt-2' title={menu.title}>
-                                <Link href={menu.path} className={`flex items-center justify-start gap-2 py-3 px-2 font-bold ${isActive(menu.path)? 'bg-orange-100 px-4  rounded-lg text-orange-300': ''}  cursor-pointer rounded-lg `}>
-                                    <span className="text-xl text-orange-300">
+                                <Link href={menu.path} className={`flex items-center justify-start gap-2 py-3 px-2
+                                     ${isActive(menu.path)? 'bg-orange-100 px-4  rounded-lg text-orange-500': ''}  cursor-pointer rounded-lg `}>
+                                    <span className="text-xl text-orange-500">
                                         {menu.icon}
                                     </span>
-                                    <span className='text-sm text-gray-500'>
+                                    <span className='text-sm'>
                                         {menu.title}
                                     </span>
                                 </Link>

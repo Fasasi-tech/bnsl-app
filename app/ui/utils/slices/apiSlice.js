@@ -37,7 +37,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes:['Post', 'getStat','allProducts','notifications','vendor-product','vendor-history', 'vendors', 'singleHistory', 'singleUser','getAnalytics', 'exports','notificationStats', 'aggregate', 'polar', 'users', 'singleVendor', 'vendorProductAdmin', 'join', 'singleProducts', 'rfq-vendor', 'singlerfq', 'rfqResponses', 'singleRfqResponse', 'userprofile', 'updateme', 'vendor-self', 'product-log', 'product-history', 'productHistory', 'rfqs'],
+    tagTypes:['Post', 'getStat','allProducts', 'vendorsResponse','notifications','vendor-product','vendor-history', 'vendors', 'singleHistory', 'singleUser','getAnalytics', 'exports','notificationStats', 'aggregate', 'polar', 'users', 'singleVendor', 'vendorProductAdmin', 'join', 'singleProducts', 'rfq-vendor', 'singlerfq', 'rfqResponses', 'singleRfqResponse', 'userprofile', 'updateme', 'vendor-self', 'product-log', 'product-history', 'productHistory', 'rfqs', 'group', 'customers', 'singleCustomer','permissions', 'getCustomer', 'category', 'singleGroup'],
     endpoints: (builder) => ({
 
     })

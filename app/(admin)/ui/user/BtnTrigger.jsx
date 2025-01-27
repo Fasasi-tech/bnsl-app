@@ -1,5 +1,4 @@
 
-
 'use client'
 import React, { useState } from 'react';
 import { Formik } from 'formik';
@@ -16,11 +15,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '@/app/ui/utils/Loader';
 import { useRouter } from 'next/navigation';
-import {Select, SelectContent,  SelectItem,  SelectTrigger,SelectValue,} from "@/components/ui/select"
+import {Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectTrigger,SelectValue} from "@/components/ui/select"
+import { useGroupQuery } from '@/app/ui/utils/slices/usersApiSlice';
 
 const BtnTrigger = () => {
   const [preview, setPreview] = useState('');
   const [CreateUser, { isLoading }] = useCreateUserMutation();
+  const {data:group, isLoading:loadingGroup, error:loadingError} = useGroupQuery()
 
   const router = useRouter();
 
@@ -77,26 +78,14 @@ const BtnTrigger = () => {
         </DialogHeader>
         <Formik
           initialValues={{
-            firstName: "",
-            lastName: "",
-            role: "",
             email: "",
-            phone: "",
-            image: ""
+            group: ""
           }}
           validate={(values) => {
             const errors = {};
 
-            if (!values.firstName) {
-              errors.firstName = 'Required';
-            }
-
-            if (!values.lastName) {
-              errors.lastName = 'Required';
-            }
-
-            if (!values.role) {
-              errors.role = 'Required';
+            if (!values.group) {
+              errors.group = 'Required';
             }
 
             if (!values.email) {
@@ -104,13 +93,7 @@ const BtnTrigger = () => {
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
               errors.email = 'Invalid email address';
             }
-            if (!values.phone) {
-              errors.phone = 'Phone number is required.';
-            } else {
-              if (values.phone.length !== 11 || !/^0\d{10}$/.test(values.phone)) {
-                errors.phone = 'Invalid phone number!. ';
-              }
-            }
+           
 
             return errors;
           }}
@@ -127,54 +110,6 @@ const BtnTrigger = () => {
             setFieldValue
           }) => (
             <form onSubmit={handleSubmit}>
-              <div className="grid gap-4 py-2">
-                <div className='grid-cols-4 items-center gap-4 relative'>
-                  <Label htmlFor="firstName">
-                    First Name
-                  </Label>
-                  <Input
-                    type='text'
-                    name="firstName"
-                    id="firstName"
-                    value={values.firstName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder='First Name'
-                    className="col-span-3 mt-2 pl-8"
-                  />
-                  <div className='z-50 absolute top-11 left-2'>
-                    <AiOutlineTeam className="text-gray-400" />
-                  </div>
-                  {touched.firstName && errors.firstName ? (
-                    <div className='text-red-500 pl-2 font-semibold'>{errors.firstName}</div>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="grid gap-4 py-2">
-                <div className='grid-cols-4 items-center gap-4 relative'>
-                  <Label htmlFor="lastName">
-                    Last Name
-                  </Label>
-                  <Input
-                    type='text'
-                    name="lastName"
-                    id="lastName"
-                    value={values.lastName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder='Last Name'
-                    className="col-span-3 mt-2 pl-8"
-                  />
-                  <div className='z-50 absolute top-11 left-2'>
-                    <AiOutlineTeam className="text-gray-400" />
-                  </div>
-                  {touched.lastName && errors.lastName ? (
-                    <div className='text-red-500 pl-2 font-semibold'>{errors.lastName}</div>
-                  ) : null}
-                </div>
-              </div>
-
               <div className="grid gap-4 py-2">
                 <div className='grid-cols-4 items-center gap-4 relative'>
                   <Label htmlFor="email">
@@ -200,80 +135,42 @@ const BtnTrigger = () => {
               </div>
               <div className='grid gap-4 py-2'>
                 <div className='grid-cols-4 items-center gap-4'>
-                  <Label htmlFor="role" >
+                  <Label htmlFor="group" >
                     Role
                   </Label>
                   <Select
-                    name="role"
-                    id="role"
-                    value={values.role}
-                    onValueChange={(value) => setFieldValue('role', value)}
+                    name="group"
+                    id="group"
+                    value={values.group}
+                    onValueChange={(value) => setFieldValue('group', value)}
                     onBlur={handleBlur}
                   >
-                    <SelectTrigger className="w-full ">
-                        <SelectValue placeholder="Role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                    <SelectItem value="none">Select a role</SelectItem> 
-                        <SelectItem value="vendor">Vendor</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="user">User</SelectItem>
-                    </SelectContent>
+                     <SelectTrigger className='pl-4 py-6'>
+                            <SelectValue placeholder="Role"/>   
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                            <SelectLabel>Role</SelectLabel>
+                                {
+                                loadingGroup?(
+                                    <Loader />
+                                ): loadingError ? (
+                                    <p>{loadingError.data.message}</p>
+                                ):
+                                group?.data?.user?.map((i, index)=>(
+                                    <SelectItem key={index} value={i._id}>
+                                    {i.name}
+                                    </SelectItem>
+                                ))
+                                }
+                            </SelectGroup>
+                        </SelectContent>
                 </Select>
                   {touched.role && errors.role ? (
                     <div className='text-red-500 pl-2 font-semibold'>{errors.role}</div>
                   ) : null}
                 </div>
               </div>
-
-              <div className="grid gap-4 py-2">
-                <div className='grid-cols-4 items-center gap-4 relative'>
-                  <Label htmlFor="phone">
-                    Phone
-                  </Label>
-                  <Input
-                    type='text'
-                    name="phone"
-                    id="phone"
-                    value={values.phone}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder='Phone'
-                    className="col-span-3 mt-2 pl-8"
-                  />
-                  <div className='z-50 absolute top-11 left-2'>
-                    <CiPhone className="text-gray-400" />
-                  </div>
-                  {touched.phone && errors.phone ? (
-                    <div className='text-red-500 pl-2 font-semibold'>{errors.phone}</div>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="mb-4 mt-4">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleFileChange(e, setFieldValue)}
-                  style={{ display: 'none' }}
-                  id="file-upload"
-                />
-                <label
-                  htmlFor="file-upload"
-                  className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded cursor-pointer"
-                >
-                  <BsCloudUpload className="text-2xl text-gray-400" />
-                  <span className="mt-2 text-sm text-gray-500">Drag your image here</span>
-                  <span className="text-xs text-gray-400">(Only *.jpeg and *.png images will be accepted)</span>
-                </label>
-              </div>
-
-              {preview && (
-                <div>
-                  <img src={preview} alt="Selected File" className='w-[300px] h-[300px]' />
-                </div>
-              )}
-
               <Button variant='destructive' type='submit' className={`${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}>
                 {isSubmitting ? <Loader /> : 'Submit'}
               </Button>

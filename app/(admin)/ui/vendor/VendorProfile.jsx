@@ -79,73 +79,90 @@ const VendorProfile = ({data, product, totalPages, page, setPage,  isFetching}) 
                 </div>
             </div>
             <div className='absolute top-[12rem] left-56'>
-                <h3 className='font-medium text-xl text-gray-500'>{`${result.name}`}</h3>
-                <div className='flex items-center gap-2 text-gray-400' >
+                <h3 className='font-medium text-xl '>{`${result.businessName}`}</h3>
+                <div className='flex items-center gap-2' >
                     <LuSplitSquareVertical />
-                    <p className='font-medium text-gray-400'>{result.user.role}</p>
+                    <p className='font-medium '>{result.user.group.name}</p>
                 </div>
-                <div className='flex items-center gap-2 text-gray-400'>
+                <div className='flex items-center gap-2 '>
                     <FaLocationCrosshairs /> 
-                    <p className='font-medium text-gray-400'>{result?.city}</p>
+                    <p className='font-medium '>{result?.address.state}</p>
                 </div>
-                <div className='flex items-center gap-2 text-gray-400'>
+                <div className='flex items-center gap-2 '>
                     <FaRegCalendarAlt /> 
-                    <p className='font-medium text-gray-400'>joined {formatDate(result.user.createdAt)}</p>
+                    <p className='font-medium '>joined {formatDate(result.createdAt)}</p>
                 </div> 
             </div>
         </div>
     <div className="  w-full  mt-4 flex flex-wrap lg:flex-nowrap justify-between gap-4">
         <div className=" items-center gap-4 p-8  py-4  rounded-lg shadow-md bg-white w-full lg:w-1/3">
             <div>
-                <h3 className='text-gray-400 border-b text-lg font-semibold border-gray-200 pt-2 pb-2'>Business Details</h3>
+                <h3 className=' border-b text-lg font-semibold border-gray-200 pt-2 pb-2'>Business Details</h3>
             
                 <div className="flex items-center justify-start gap-4 py-2">
-                    <p className='text-gray-500 font-semibold text-sm'>Business Name:</p>
-                    <p className='text-sm text-gray-400'>{`${result.name}`}</p>
+                    <p className=' font-semibold text-sm'>Business Name:</p>
+                    <p className='text-sm '>{`${result.businessName}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
-                    <p className='text-gray-500 font-semibold text-sm'>Description:</p>
-                    <p className='text-sm text-gray-400'>{`${result.description}`}</p>
+                    <p className=' font-semibold text-sm'>Business Address:</p>
+                    <p className='text-sm '>{`${result?.address.businessAddress}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
-                    <p className='text-gray-500 font-semibold text-sm'>City:</p>
-                    <p className='text-sm text-gray-400'>{`${result?.city}`}</p>
+                    <p className=' font-semibold text-sm'>State:</p>
+                    <p className='text-sm '>{`${result?.address.state}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
-                    <p className='text-gray-500 font-semibold text-sm'>Address:</p>
-                    <p className='text-sm text-gray-400'>{`${result?.address}`}</p>
+                    <p className=' font-semibold text-sm'>Country:</p>
+                    <p className='text-sm '>{`${result?.address.country}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
-                    <p className='text-gray-500 font-semibold text-sm'>Vendor Class:</p>
-                    <p className="text-sm text-gray-400"> {result.vendor_class}</p>
-                </div>
-                <h3 className='text-gray-400 border-b text-lg font-semibold border-gray-200 pt-2 pb-2'>Vendor Details</h3>
-                <div className="flex items-center justify-start gap-4 py-2">
-                    <p className='text-gray-500 font-semibold text-sm'>First Name:</p>
-                    <p className='text-sm text-gray-400'>{`${result.user.firstName}`}</p>
+                    <p className=' font-semibold text-sm'>Account Name:</p>
+                    <p className='text-sm '>{`${result?.bankAccountDetails.accountName}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
-                    <p className='text-gray-500 font-semibold text-sm'>Last Name:</p>
-                    <p className='text-sm text-gray-400'>{`${result.user.lastName}`}</p>
+                    <p className='font-semibold text-sm'>Account Number:</p>
+                    <p className='text-sm '>{`${result?.bankAccountDetails.accountNumber}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
-                    <p className='text-gray-500 font-semibold text-sm'>Status:</p>
-                    <p className="text-sm text-gray-400"> {result.user.role}</p>
+                    <p className=' font-semibold text-sm'>Bank Name:</p>
+                    <p className='text-sm '>{`${result?.bankAccountDetails.bankName}`}</p>
                 </div>
                 <div className="flex items-center justify-start gap-4 py-2">
-                    <p className='text-gray-500 font-semibold text-sm'>Email:</p>
-                    <p className="text-sm text-gray-400"> {result.user.email}</p>
+                    <p className=' font-semibold text-sm'>Phone:</p>
+                    <p className='text-sm '>{`${result?.phoneNumber}`}</p>
+                </div>
+                <h3 className=' border-b text-lg font-semibold border-gray-200 pt-2 pb-2'>Vendor Details</h3>
+                <div className="flex items-center justify-start gap-4 py-2">
+                    <p className=' font-semibold text-sm'>Role:</p>
+                    <p className="text-sm "> {result.user.group.name}</p>
+                </div>
+                <div className="flex items-center justify-start gap-4 py-2">
+                    <p className=' font-semibold text-sm'>Email:</p>
+                    <p className="text-sm "> {result.user.email}</p>
+                </div>
+                <div className="flex items-center justify-start gap-4 py-2">
+                    <p className=' font-semibold text-sm'>Vendor Class:</p>
+                    {/* <p className="text-sm text-gray-400"> {result.user.email}</p> */}
+                    {result.vendor_class.map((vendor, index) =>(
+                        <div key={vendor._id}>
+                            <p>
+                                {vendor.name}
+                                {index < result.vendor_class.length - 1 && ','}
+                            </p>
+                        </div>
+                        
+                    ))}
                 </div>
                 <div className="flex items-center justify-start gap-4 pb-2">
-                    <p className='text-gray-500 font-semibold text-sm'>Status:</p>
-                    <p className="text-sm text-gray-400"> {result.user.active ? 'Active' : 'In-active'}</p>
+                    <p className=' font-semibold text-sm'>Status:</p>
+                    <p className="text-sm "> {result.user.active ? 'Active' : 'In-active'}</p>
                 </div>
             </div>
-            {userInfo && (userInfo.data.user.role==='admin' || userInfo.data.user.role==='superAdmin') && (<div className='pt-8 flex items-center gap-4 md:gap-8 justify-start'>
+            <div className='pt-8 flex items-center gap-4 md:gap-8 justify-start'>
                 <Button variant='destructive' onClick={() => setSelectedUser(result)} > Edit </Button>
                 {/* <Button variant='' onClick={handleDelete}>Delete</Button> */}
                 <DeleteDialog handleDelete={handleDelete} />
-            </div>)}
+            </div>
         </div>
 
         <div className='w-full lg:w-2/3'>

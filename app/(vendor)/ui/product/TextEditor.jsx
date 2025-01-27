@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -8,17 +7,18 @@ import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-ordered-list";
 import Heading from "@tiptap/extension-heading";
 import Underline from "@tiptap/extension-underline";
+import { useEffect } from "react";
 
 // Custom hook to configure the editor
 const useTextEditor = (editorContent, onChange) => {
-  return useEditor({
+  const editor = useEditor({
     extensions: [
       StarterKit,
       ListItem,
       Heading.configure({
         HTMLAttributes: {
           class: "text-3xl font-bold capitalize",
-          levels: [ 1],
+          levels: [1],
         },
       }),
       BulletList.configure({
@@ -33,7 +33,7 @@ const useTextEditor = (editorContent, onChange) => {
       }),
       Underline.configure({
         HTMLAttributes: {
-          class: "underline", // Custom class for underline
+          class: "underline",
         },
       }),
     ],
@@ -43,12 +43,20 @@ const useTextEditor = (editorContent, onChange) => {
           "shadow appearance-none min-h-[150px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:my-3 leading-tight focus:outline-none focus:shadow-outline min-h-[400px]",
       },
     },
-    content: editorContent,
+    content: editorContent, // Initial content
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      onChange(editor.getHTML()); // Notify parent of content changes
     },
-    immediatelyRender: false,
   });
+
+  // Update editor content when editorContent prop changes
+  useEffect(() => {
+    if (editor && editor.getHTML() !== editorContent) {
+      editor.commands.setContent(editorContent || ""); // Reset content
+    }
+  }, [editorContent, editor]);
+
+  return editor;
 };
 
 // TextEditor component
@@ -59,7 +67,7 @@ const TextEditor = ({ editorContent, onChange }) => {
   if (!editor) return null;
 
   return (
-    <div className="flex flex-col justify-stretch min-h-[200px]  rounded ">
+    <div className="flex flex-col justify-stretch min-h-[200px] rounded">
       {/* Toolbar with buttons */}
       <div className="flex items-center gap-2">
         {/* Bold Button */}
@@ -67,7 +75,7 @@ const TextEditor = ({ editorContent, onChange }) => {
           editor={editor}
           action="toggleBold"
           isActive={editor.isActive("bold")}
-          label={<b className='text-gray-500'>B</b>}
+          label={<b className="text-gray-500">B</b>}
           title="Bold (Ctrl+B)"
         />
 
@@ -76,14 +84,16 @@ const TextEditor = ({ editorContent, onChange }) => {
           editor={editor}
           action="toggleItalic"
           isActive={editor.isActive("italic")}
-          label={<i className='text-gray-500'>I</i>}
+          label={<i className="text-gray-500">I</i>}
           title="Italic (Ctrl+I)"
         />
-         <EditorButton
+
+        {/* Underline Button */}
+        <EditorButton
           editor={editor}
           action="toggleUnderline"
           isActive={editor.isActive("underline")}
-          label={<u className='text-gray-500'>U</u>}
+          label={<u className="text-gray-500">U</u>}
           title="Underline (Ctrl+U)"
         />
 
@@ -93,20 +103,16 @@ const TextEditor = ({ editorContent, onChange }) => {
           action="toggleHeading"
           options={{ level: 2 }}
           isActive={editor.isActive("heading", { level: 2 })}
-          label={
-            <h2 className='text-gray-500'>H2</h2>
-          }
+          label={<h2 className="text-gray-500">H2</h2>}
           title="Heading 2"
         />
-       
+
         {/* Bullet List Button */}
         <EditorButton
           editor={editor}
           action="toggleBulletList"
           isActive={editor.isActive("bulletList")}
-          label={
-            <h2 className='text-gray-500'>Bullet List</h2>
-          }
+          label={<h2 className="text-gray-500">Bullet List</h2>}
           title="Bullet List"
         />
 
@@ -115,8 +121,7 @@ const TextEditor = ({ editorContent, onChange }) => {
           editor={editor}
           action="toggleOrderedList"
           isActive={editor.isActive("orderedList")}
-          label={ <h2 className='text-gray-500'>Ordered List</h2>
-          }
+          label={<h2 className="text-gray-500">Ordered List</h2>}
           title="Ordered List"
         />
       </div>
@@ -142,3 +147,4 @@ const EditorButton = ({ editor, action, options = {}, isActive, label, title }) 
 };
 
 export default TextEditor;
+

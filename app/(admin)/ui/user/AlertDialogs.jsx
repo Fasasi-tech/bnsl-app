@@ -3,10 +3,19 @@ import {AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, A
 import { Button } from "@/components/ui/button"
 
 const AlertDialogs = ({handleDelete}) => {
+
+  const handleDeleteClick = async () => {
+    try {
+      await handleDelete(); // Wait for delete to complete
+    } catch (error) {
+      console.error("Error during deletion:", error);
+    }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="red">Suspend</Button>
+        <Button variant="red" >Suspend</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -17,7 +26,7 @@ const AlertDialogs = ({handleDelete}) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={handleDeleteClick}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

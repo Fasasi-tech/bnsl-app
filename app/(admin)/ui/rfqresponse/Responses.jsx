@@ -7,6 +7,8 @@ import RFQresponseActions from './RFQresponseActions'
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Button } from '@/components/ui/button';
 import classNames from 'classnames';
+import Link from 'next/link'
+import { HiDotsHorizontal } from "react-icons/hi";
 
 const Responses = () => {
     const [page, setPage] = useState(1);
@@ -20,16 +22,17 @@ const Responses = () => {
  if (error){
     return <p>{error?.data?.message}</p>
  }
-    const result= data?.data?.user?.Rfqs
-    const totalPages= Math.ceil(data?.data?.user?.countResult / ITEMS_PER_PAGE)
+    const result= data?.data?.user
+    console.log('result', result)
+   // const totalPages= Math.ceil(data?.data?.user?.countResult / ITEMS_PER_PAGE)
 
-    const batchSize = 5; // Number of pages to show in each batch
-    const startPage = Math.floor((page - 1) / batchSize) * batchSize + 1;
-    const endPage = Math.min(startPage + batchSize - 1, totalPages);
+    // const batchSize = 5; // Number of pages to show in each batch
+    // const startPage = Math.floor((page - 1) / batchSize) * batchSize + 1;
+    // const endPage = Math.min(startPage + batchSize - 1, totalPages);
     
-    if (result?.length === 0) {
-        return <div className='font-bold text-orange-300'>No RFQs available.</div>;
-    }
+    // if (result?.length === 0) {
+    //     return <div className='font-bold text-orange-300'>No RFQs available.</div>;
+    // }
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -42,8 +45,8 @@ const Responses = () => {
             <TableHeader>
                 <TableRow>
                     <TableHead className='w-1/6'>Product Name</TableHead>
-                    <TableHead className='w-1/6'>Product Category</TableHead>
-                    <TableHead className='w-1/6'>Sender Email</TableHead>
+                    <TableHead className='w-1/6'>Business Name</TableHead>
+                    <TableHead className='w-1/6'>Date Created</TableHead>
                     <TableHead className='w-1/6'>Action</TableHead>
                 </TableRow>
             </TableHeader>
@@ -55,13 +58,14 @@ const Responses = () => {
                                 {i?.product?.name}
                             </TableCell>
                             <TableCell className='w-1/6'>
-                                {i?.product?.category}
+                                {i?.vendor?.businessName}
                             </TableCell>
                             <TableCell className='w-1/6'>
-                                {i.customerEmail}
+                                {formatDate(i?.createdAt)}
                             </TableCell>
                             <TableCell className='w-1/6'>
-                                <RFQresponseActions userId={i._id} />
+                                {/* <RFQresponseActions userId={i._id} /> */}
+                                <Link href={`/rfq-responses/${i._id}/profile`}><Button variant='outline'><HiDotsHorizontal /></Button></Link>
                             </TableCell>
                         </TableRow>
                     ))
@@ -70,55 +74,7 @@ const Responses = () => {
             
             </TableBody>
         </Table>
-        <div className="flex justify-end gap-2 mt-4">
-        {/* Previous button */}
-        <button
-            onClick={() => setPage(page - 1)}
-            disabled={page === 1}
-            className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
-            isLoading={isFetching}
-        >
-            <FaAngleLeft />
-        </button>
-
-        {/* Calculate the start and end pages to display only 3 buttons */}
-        {(() => {
-            const startPage = Math.max(1, page - 1);
-            const endPage = Math.min(totalPages, startPage + 2);
-
-            return [...Array(endPage - startPage + 1)].map((_, index) => {
-            const currentPage = startPage + index;
-            return (
-                <Button
-                variant="secondary"
-                key={currentPage}
-                onClick={() => setPage(currentPage)}
-                className={classNames(
-                    'px-3 rounded',
-                    {
-                    'bg-orange-300 text-white': page === currentPage,
-                    'bg-gray-200': page !== currentPage,
-                    },
-                    'mx-1'
-                )}
-                isLoading={isFetching}
-                >
-                {currentPage}
-                </Button>
-            );
-            });
-        })()}
-
-        {/* Next button */}
-        <button
-            onClick={() => setPage(page + 1)}
-            disabled={page === totalPages}
-            className="bg-orange-300 text-white py-1 px-3 rounded-full disabled:opacity-50"
-            isLoading={isFetching}
-        >
-            <FaAngleRight />
-        </button>
-        </div>
+       
     </div>
   )
 }

@@ -14,7 +14,7 @@ const Notification = () => {
     }
 
     if (statsError){
-        return <p>{error?.data?.message}</p>
+        return <p>{statsError?.message}</p>
     }
 
     const timeAgo = (dateString) => {

@@ -1,7 +1,7 @@
 'use client'
 import React, {useState} from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import {Select, SelectContent, SelectItem,  SelectTrigger,SelectValue,} from "@/components/ui/select"
+import {Select, SelectContent, SelectItem,  SelectTrigger,SelectValue,SelectGroup,SelectLabel} from "@/components/ui/select"
 import { Formik } from 'formik';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -12,8 +12,14 @@ import { Button } from '@/components/ui/button'
 import { BsCloudUpload } from 'react-icons/bs';
 import {  useUpdateVendorMutation } from '@/app/ui/utils/slices/usersApiSlice';
 import { useToast } from '@/components/ui/use-toast';
+import { useCategoriesQuery } from '@/app/ui/utils/slices/usersApiSlice';
+import { Countries } from '@/app/ui/utils/data/Countries';
+import Loader from '@/app/ui/utils/Loader';
+import { Checkbox } from '@/components/ui/checkbox'
 
 const EditVendor = ({user, onClose}) => {
+
+  const {data:categories, isLoading:loadingCategories, error:errorCategories} = useCategoriesQuery()
 
     const [preview, setPreview] = useState('');
 
@@ -43,7 +49,7 @@ const EditVendor = ({user, onClose}) => {
      
         try {
           const res = await updateVendor({ id: user._id, ...values }).unwrap();
-      
+          console.log(res, 'res')
           setSubmitting(false);
         //   setModalMessage('User updated successfully!');
         toast({
@@ -71,7 +77,7 @@ const EditVendor = ({user, onClose}) => {
                 Edit
             </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className='max-h-[40rem] overflow-y-auto'>
             <DialogHeader>
                 <DialogTitle>
                     Edit Vendor Information.
@@ -82,22 +88,76 @@ const EditVendor = ({user, onClose}) => {
             </DialogHeader>
             <Formik
                 initialValues={{
-                    name: user.name || "",
-                    description: user.description || "",
-                    vendor_class: user.vendor_class || "",
-                    logo:""
+                    businessName: user.businessName || "",
+                    vendor_class: user.vendor_class || [],
+                    
+                    address:{
+                      state: user.address.state || "",
+                      country: user.address.country || "",
+                      businessAddress:user.address.businessAddress||'',
+                    },
+                    bankAccountDetails:{
+                      accountName:user.bankAccountDetails.accountName || "",
+                      accountNumber:user.bankAccountDetails.accountNumber || "",
+                      bankName:user.bankAccountDetails.bankName || "",
+                  },
+                    
+                    logo:"",
+                    phoneNumber: user.phoneNumber || "",
                 }}
 
                 validate={(values) =>{
                     const errors={}
 
-                    // if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                    //     errors.email = 'Invalid email address';
-                    // }
+                  if (!values.bankAccountDetails.accountNumber){
+                      if (!errors.bankAccountDetails) errors.bankAccountDetails ={}
+                      errors.bankAccountDetails.accountNumber ='Required'
+  
+                  }
+  
+                  if (!values.bankAccountDetails?.accountName){
+                      if (!errors.bankAccountDetails) errors.bankAccountDetails ={}
+                      errors.bankAccountDetails.accountName ='Required'
+  
+                  }
+  
+                  if (!values.bankAccountDetails.bankName){
+                      if (!errors.bankAccountDetails) errors.bankAccountDetails ={}
+                      errors.bankAccountDetails.bankName ='Required'
+  
+                  }
+  
+                  if (!values.phoneNumber) {
+                      errors.phoneNumber = 'Phone number is required.';
+                    } else {
+                      if (values.phoneNumber.length !== 11 || !/^0\d{10}$/.test(values.phoneNumber)) {
+                        errors.phoneNumber = 'Invalid phone number!. ';
+                      }
+                  }
+  
+                  if (!values.address?.state) {
+                      if (!errors.address) errors.address = {};
+                      errors.address.state = 'State is required!';
+                  }
+              
+                  if (!values.address?.country) {
+                      if (!errors.address) errors.address = {};
+                      errors.address.country = 'Country is required!';
+                  }
+  
+                  if (!values.address?.businessAddress) {
+                      if (!errors.address) errors.address = {};
+                      errors.address.businessAddress = 'business address is required!';
+                  }
+  
+                  if (!values.vendor_class){
+                      errors.vendor_class = 'Required'
+                  }
 
-                    // if (values.phone.length !== 11 || !/^0\d{10}$/.test(values.phone)) {
-                    //     errors.phone = 'Invalid phone number!. ';
-                    //   }
+                  if (!values.vendor_class || values.vendor_class.length === 0) {
+                    errors.vendor_class = 'At least one category must be selected';
+                  }
+  
 
                       return errors;
 
@@ -107,7 +167,7 @@ const EditVendor = ({user, onClose}) => {
             }
             onSubmit={handleSubmit}
             >
-                 {({
+      {({
         values,
         errors,
         touched,
@@ -125,69 +185,217 @@ const EditVendor = ({user, onClose}) => {
               </Label>
               <Input
                 type='text'
-                name="name"
+                name="businessName"
                 id="name"
-                value={values.name}
+                value={values.businessName}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder='Business Name'
                 className="col-span-3 mt-2 pl-8"
                 
               />
-              <div className='z-50 absolute top-11 left-2'>
-                <AiOutlineTeam className="text-gray-400" />
-              </div>
+              {touched.businessName && errors.businessName ? (
+                <div className='text-red-500 pl-2 font-semibold'>{errors.businessName}</div>
+                ) : null}
             </div>
           </div>
 
           <div className="grid gap-4 py-2">
             <div className='grid-cols-4 items-center gap-4 relative'>
-              <Label htmlFor="lastName">
-                Description
+              <Label htmlFor="accountName">
+                Account Name
               </Label>
               <Input
                 type='text'
-                name="description"
-                id="description"
-                value={values.description}
+                name="bankAccountDetails.accountName"
+                id="accountName"
+                value={values.bankAccountDetails.accountName}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                placeholder='description'
+                placeholder='account name'
                 className="col-span-3 mt-2 pl-8"
                
               />
-              <div className='z-50 absolute top-11 left-2'>
-                <AiOutlineTeam className="text-gray-400" />
-              </div>
+              {touched.bankAccountDetails?.accountName && errors.bankAccountDetails?.accountName ? (
+                    <div className='text-red-500 pl-2 font-semibold'>{errors.bankAccountDetails?.accountName}</div>
+                ) : null}
             </div>
           </div>
           <div className="grid gap-4 py-2">
             <div className='grid-cols-4 items-center gap-4 relative'>
-              <Label htmlFor="vendor_class">
-               Vendor Class
+              <Label htmlFor="phoneNumber">
+                Phone
+              </Label>
+              <Input
+                type='text'
+                name="phoneNumber"
+                id="phoneNumber"
+                value={values.phoneNumber}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder='account name'
+                className="col-span-3 mt-2 pl-8"
+               
+              />
+              {touched.phoneNumber && errors.phoneNumber ? (
+                    <div className='text-red-500 pl-2 font-semibold'>{errors.phoneNumber}</div>
+                ) : null}
+            </div>
+          </div>
+          <div className="grid gap-4 py-2">
+            <div className='grid-cols-4 items-center gap-4 relative'>
+              <Label htmlFor="accountNumber">
+                Account Number
+              </Label>
+              <Input
+                type='text'
+                name="bankAccountDetails.accountNumber"
+                id="accountName"
+                value={values.bankAccountDetails.accountNumber}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder='account number'
+                className="col-span-3 mt-2 pl-8"
+               
+              />
+               {touched.bankAccountDetails?.accountNumber && errors.bankAccountDetails?.accountNumber ? (
+                    <div className='text-red-500 pl-2 font-semibold'>{errors.bankAccountDetails?.accountNumber}</div>
+                ) : null}
+            </div>
+          </div>
+          <div className="grid gap-4 py-2">
+            <div className='grid-cols-4 items-center gap-4 relative'>
+              <Label htmlFor="bankName">
+                Bank Name
+              </Label>
+              <Input
+                type='text'
+                name="bankAccountDetails.bankName"
+                id="accountName"
+                value={values.bankAccountDetails.bankName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder='account number'
+                className="col-span-3 mt-2 pl-8" 
+              />
+              {touched.bankAccountDetails?.bankName && errors.bankAccountDetails?.bankName ? (
+                    <div className='text-red-500 pl-2 font-semibold'>{errors.bankAccountDetails?.bankName}</div>
+                ) : null}
+            </div>
+          </div>
+
+          <div className="grid gap-4 py-2">
+            <div className='grid-cols-4 items-center gap-4 relative'>
+                <Label htmlFor="country">
+                    Country
+                </Label>
+                <Select
+                    onBlur={handleBlur}
+                    name="address.country"
+                    id='country'
+                    value={values.address.country}
+                    onValueChange={(value) => setFieldValue('address.country', value)}
+                >
+                    <SelectTrigger className='pl-2 py-6'>
+                    <SelectValue placeholder="Select country" />
+                    </SelectTrigger>
+                    <SelectContent>
+                    <SelectGroup>
+                        <SelectLabel>Country</SelectLabel>
+                        {
+                            Countries.map(country =>(
+                                <SelectItem key={country.code2} value={country.name}>{country.name}</SelectItem>
+                            ))
+                        }
+                    </SelectGroup>
+                    </SelectContent>
+                </Select>
+                {touched.address?.country && errors.address?.country ? (
+                    <div className='text-red-500 pl-2 font-semibold'>{errors.address.country}</div>
+                ) : null}
+            </div>
+          </div>
+          <div className="grid gap-4 py-2">
+            <div className='grid-cols-4 items-center gap-4 relative'>
+              <Label htmlFor="state">
+                  State
               </Label>
               <Select
-                name="vendor_class"
-                id="vendor_class"
-                value={values.vendor_class}
-                onValueChange={(value) => setFieldValue('vendor_class', value)}
-                onBlur={handleBlur}
-                className=''
+                  onBlur={handleBlur}
+                  name="address.state"
+                  id='state'
+                  value={values.address.state}
+                  onValueChange={(value) => setFieldValue('address.state', value)}
               >
-                <SelectTrigger className="w-full mt-2 ">
-                    <SelectValue placeholder="vendor class" />
-                </SelectTrigger>
-                <SelectContent>
-                <SelectItem value="none">Select a vendor class</SelectItem> 
-                    <SelectItem value="Food">Food</SelectItem>
-                    <SelectItem value="Feed">Feed</SelectItem>
-                    <SelectItem value="Vet">Vet</SelectItem>
-                    <SelectItem value="Service">Service</SelectItem>
-                </SelectContent>
+                  <SelectTrigger className='pl-2 py-6'>
+                  <SelectValue placeholder="Select state" />
+                  </SelectTrigger>
+                  <SelectContent>
+                  <SelectGroup>
+                      <SelectLabel>state</SelectLabel>
+                      {
+                          Countries.find(country =>country.name === values.address.country)?.states.map(state =>(
+                              <SelectItem key={state.code} value={state.name}>{state.name}</SelectItem>
+                          ))
+                      }
+                  </SelectGroup>
+                  </SelectContent>
               </Select>
+              {touched.address?.state && errors.address?.state ? (
+                  <div className='text-red-500 pl-2 font-semibold'>{errors.address.state}</div>
+              ) : null}
+          </div>
+        </div>
+          <div className="grid gap-4 py-2">
+            <div className='grid-cols-4 items-center gap-4 relative'>
+              <Label htmlFor="vendor_class">
+                Categories
+              </Label>
+              {
+                loadingCategories ? (
+                    <Loader />
+                ) : errorCategories ?(
+                    <p className='text-red-500'>{loadingCategories.message}</p>
+                ):(
+                    <div>
+                        <div className="overflow-x-auto rounded-lg">
+                            <table className="min-w-full table-auto text-left  border border-gray-200">
+                                <thead className="bg-gray-100">
+                                </thead>
+                                <tbody>
+                                    {
+                                        categories.data.user.map(category =>(
+                                            <tr key={category._id} className=''>
+                                                <td className="px-4 py-2 text-sm text-gray-700">
+                                                    {category.name}
+                                                </td>
+                                                <td className="px-4 py-2">
+                                                    <Checkbox 
+                                                        checked={values.vendor_class.some((v) => v._id === category._id)}
+                                                        onCheckedChange={() => {
+                                                        if (values.vendor_class.some((v) => v._id === category._id)) {
+                                                            setFieldValue('vendor_class',  values.vendor_class.filter((v) => v._id !== category._id));
+                                                        } else {
+                                                            setFieldValue('vendor_class', [...values.vendor_class,
+                                                              { _id: category._id, name: category.name },]);
+                                                        }
+                                                        }}
+                                                    
+                                                    />
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )
+            }
 
             </div>
-            <div className="mb-4 mt-4">
+          </div>
+          <div className="mb-4 mt-4">
                 <input
                   type="file"
                   accept="image/*"
@@ -209,8 +417,6 @@ const EditVendor = ({user, onClose}) => {
                   <img src={preview} alt="Selected File" className='w-[300px] h-[300px]' />
                 </div>
               )}
-
-          </div>
           <Button variant='destructive' type='submit' className={`${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}>
             {isSubmitting ?<LoaderBtn/> : 'Submit'}
           </Button>

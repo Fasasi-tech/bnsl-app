@@ -25,7 +25,7 @@ const Product = () => {
   }
 
   if (error){
-    return <p className='text-orange-300 font-semibold '>{`${error.message}`}</p>
+    return <p className='text-orange-300 font-semibold '>{`${error.data.message}`}</p>
   }
 
   const handleCategoryChange = (value) =>{

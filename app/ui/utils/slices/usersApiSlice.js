@@ -1,6 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
-const URL ='https://vendor-application.onrender.com/api/v1'
+const URL ='http://localhost:8000/api/v1'
 //`${URL}/users?page=${page}&limit=${limit}`
 
 export const userApiSlice = apiSlice.injectEndpoints({
@@ -19,7 +19,20 @@ export const userApiSlice = apiSlice.injectEndpoints({
             body:data
         })
     }),
-   
+    createRfq:builder.mutation({
+        query:(data) =>({
+            url:`${URL}/customerRfqs/`,
+            method:'POST',
+            body:data
+        })
+    }),
+    postVendorResponse:builder.mutation({
+        query:(data) =>({
+            url:`${URL}/responses/`,
+            method:'POST',
+            body:data
+        })
+    }),
     resetPassword:builder.mutation({
         query:({data, token}) =>({
             url:`${URL}/auth/resetPassword/${token}`,
@@ -35,41 +48,56 @@ export const userApiSlice = apiSlice.injectEndpoints({
         query:(data) =>`${URL}/users/profile`,
         providesTags:['userprofile']    
     }),
+    customerprofile:builder.query({
+        query:() =>`${URL}/customers/self`,
+        providesTags:['getCustomer']
+    }),
+    vendorsresponse:builder.query({
+        query:() => `${URL}/responses/vendor/response`,
+        providesTags:['vendorsResponse']
+    }),
     rfqResponses:builder.query({
-        query:({page, limit}) =>{
+        query:({page, limit, search}) =>{
             const params = new URLSearchParams();
+            if (search) params.append('search', search)
             if (page) params.append('page', page);
             if (limit) params.append('limit', limit);
-            return `${URL}/rfq/response?${params.toString()}` },
+            return `${URL}/responses/responses?${params.toString()}` },
         providesTags:['rfqResponses']    
     }),
     rfqs:builder.query({
-        query:({page, limit}) =>{
+        query:({page, limit, search}) =>{
             const params = new URLSearchParams();
+            if (search) params.append('search', search)
             if (page) params.append('page', page);
             if (limit) params.append('limit', limit);
-            return  `${URL}/rfq?${params.toString()}` 
+            return  `${URL}/customerRfqs/rfqs?${params.toString()}` 
         },
         providesTags:['rfqs']   
     }),
+    
     analytics: builder.query({
-        query:(data) => `${URL}/users/analytics`,
+        query:() => `${URL}/users/analytics`,
         providesTags:['getAnalytics']
     }),
     notificationStats: builder.query({
-        query:(data) => `${URL}/notifications/stats`,
+        query:() => `${URL}/notifications/stats`,
         providesTags:['notificationStats']
     }),
     usersSort: builder.query({
-        query:(data) => `${URL}/users/aggregate`,
+        query:() => `${URL}/users/aggregate`,
         providesTags:['aggregate']
     }),
     polar: builder.query({
-        query:(data) => `${URL}/product/category`,
+        query:() => `${URL}/categories/aggregate`,
         providesTags:['polar']
     }),
+    categories: builder.query({
+        query:() => `${URL}/categories`,
+        providesTags:['category']
+    }),
     rfqvendor: builder.query({
-        query:(data) => `${URL}/rfq`,
+        query:() => `${URL}/customerRfqs`,
         providesTags:['rfq-vendor']
     }),
     productlog: builder.query({
@@ -80,7 +108,21 @@ export const userApiSlice = apiSlice.injectEndpoints({
         query:(data) => `${URL}/vendors/self`,
         providesTags:['vendor-self']
     }),
-    
+    customer: builder.query({
+        query:({page, limit, search}) =>{
+            const params = new URLSearchParams();
+            if (page) params.append('page', page);
+            if (limit) params.append('limit', limit);
+            if (search) params.append('search', search)
+
+            return `${URL}/customers?${params.toString()}`
+        },
+        providesTags:['customers']
+    }),
+    permissions:builder.query({
+        query:(data) => `${URL}/permissions`,
+        providesTags:['permissions']
+    }),
     vendorHistory:builder.query({
         query: ({page, limit, sort, search}) => {
             const params = new URLSearchParams();
@@ -111,10 +153,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
 
     singleRfqResponse: builder.query({
-        query:(id) => `${URL}/rfq/response/${id}`,
+        query:(id) => `${URL}/responses/responses/${id}`,
         providesTags:['singleRfqResponse']
     }),
-   
     singleVendor:builder.query({
         query:(id) =>`${URL}/vendors/${id}`,
         providesTags:['singleVendor']
@@ -138,12 +179,26 @@ export const userApiSlice = apiSlice.injectEndpoints({
         providesTags:['productHistory']
     }),
     singleRfq:builder.query({
-        query:(id)=>`${URL}/rfq/${id}`,
+        query:(id)=>`${URL}/customerRfqs/${id}`,
         providesTags:['singlerfq']
     }),
+    group:builder.query({
+        query:(data)=>`${URL}/groups`,
+        providesTags:['group']
+    }),
+   
     singleProducts:builder.query({
         query:(id) =>`${URL}/product/${id}`,
         providesTags:['singleProducts']
+    }),
+    singleCustomer:builder.query({
+        query:(id) =>`${URL}/customers/${id}`,
+        providesTags:['singleCustomer']
+    }),
+
+    singleRoles:builder.query({
+        query:(id) => `${URL}/groups/${id}`,
+        providesTags:['singleGroup']
     }),
     editUser: builder.mutation({
         query:({id, ...values}) =>({
@@ -159,7 +214,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method:'PATCH',
         body: values
     }),
+
     
+    
+    }),
+    editCustomer:builder.mutation({
+        query:({id, ...values}) =>({
+            url:`${URL}/customers/${id}`,
+            method:'PATCH',
+            body:values
+        })
     }),
     activateUser: builder.mutation({
         query:(id) =>({
@@ -181,9 +245,23 @@ export const userApiSlice = apiSlice.injectEndpoints({
           body:values
         }) 
     }),
+    postGroup: builder.mutation({
+        query:(values) =>({
+          url:`${URL}/groups`,
+          method:'POST',
+          body:values
+        })
+    }),
     updateBusiness: builder.mutation({
         query:(values) =>({
           url: `${URL}/vendors`,
+          method:'PATCH',
+          body:values
+        }) 
+    }),
+    updateCustomerSelf: builder.mutation({
+        query:(values) =>({
+          url: `${URL}/customers/self`,
           method:'PATCH',
           body:values
         }) 
@@ -198,6 +276,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
     deleteVendor:builder.mutation({
         query:(id) =>({
             url: `${URL}/vendors/${id}`,
+            method:'DELETE'
+        })
+
+    }),
+    deleteGroup:builder.mutation({
+        query:(id) =>({
+            url: `${URL}/groups/${id}`,
             method:'DELETE'
         })
 
@@ -240,14 +325,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
         })
     }),
     listUsers:builder.query({
-        query: ({page, limit, role, sort, search, active}) => {
+        query: ({page, limit,search}) => {
             const params = new URLSearchParams();
             if (page) params.append('page', page);
             if (limit) params.append('limit', limit);
-            if (role) params.append('role', role);
-            if(sort) params.append('sort', sort);
             if (search) params.append('search', search)
-            if (active !== undefined) params.append('active', active);
+           
 
             return `${URL}/users?${params.toString()}`;
         },
@@ -293,6 +376,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
             method:'POST',
             body:data
 
+        })
+    }),
+    createCustomer:builder.mutation({
+        query:(data)=>({
+            url: `${URL}/customers/`,
+            method:'POST',
+            body:data
         })
     }),
     postProduct: builder.mutation({
@@ -366,12 +456,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         },
         providesTags:['vendorshistory']
       }),
-
-      
-
-
-
    }) 
 })
 
-export const {useLoginMutation, useNotificationsQuery, useSingleVendorHistoryQuery, useVendorHistoryQuery, useDeleteVendorMutation, useVendorsLogQuery, useEmailtMutation, useLeftJoinQuery, useUpdateVendorMutation, useSingleVendorQuery, useVendorsQuery, useActivateUserMutation, useDeleteUserMutation,  useEditUserMutation, useSingleUserQuery,  useExportUserMutation, useCreateUserMutation, useListUsersQuery, usePolarQuery, useUsersSortQuery, useAnalyticsQuery, useNotificationStatsQuery, useForgotPasswordMutation, useResetPasswordMutation, useUsersStatQuery, useGetVendorProductQuery, useVendorProductadminQuery, usePostProductMutation, useAllProductsQuery, useSingleProductsQuery, useRfqrouteMutation, useLogoutMutation, useChangePasswordMutation, useRfqvendorQuery, useSingleRfqQuery, usePostResponseMutation, useRfqResponsesQuery, useSingleRfqResponseQuery, useUserprofileQuery, useUpdatemeMutation, useEditProductMutation, useCreateVendorMutation, useGetVendorSelfQuery, useUpdateBusinessMutation, useProductlogQuery, useProductHistoryQuery, useSingleProductHistoryQuery, useRatingsMutation, useDeleteProductMutation, useRfqsQuery } = userApiSlice;
+export const {useVendorsresponseQuery, useLoginMutation, useCategoriesQuery, useCreateRfqMutation ,useEditCustomerMutation, useCreateCustomerMutation, useNotificationsQuery, useSingleVendorHistoryQuery, useVendorHistoryQuery, useDeleteVendorMutation, useVendorsLogQuery, useEmailtMutation, useLeftJoinQuery, useUpdateVendorMutation, useSingleVendorQuery, useVendorsQuery, useActivateUserMutation, useDeleteUserMutation,  useEditUserMutation, useSingleUserQuery,  useExportUserMutation, useCreateUserMutation, useListUsersQuery, usePolarQuery, useUsersSortQuery, useAnalyticsQuery, useNotificationStatsQuery, useForgotPasswordMutation, useResetPasswordMutation, useUsersStatQuery, useGetVendorProductQuery, useVendorProductadminQuery, usePostProductMutation, useAllProductsQuery, useSingleProductsQuery, useRfqrouteMutation, useLogoutMutation, useChangePasswordMutation, useRfqvendorQuery, useSingleRfqQuery, usePostResponseMutation, useRfqResponsesQuery, useSingleRfqResponseQuery, useUserprofileQuery, useUpdatemeMutation, useEditProductMutation, useCreateVendorMutation, useGetVendorSelfQuery, useUpdateBusinessMutation, useProductlogQuery, useProductHistoryQuery, useSingleProductHistoryQuery, useRatingsMutation, useDeleteProductMutation, useRfqsQuery, useGroupQuery, useCustomerQuery, useSingleCustomerQuery, usePermissionsQuery, useCustomerprofileQuery, useUpdateCustomerSelfMutation, usePostVendorResponseMutation, usePostGroupMutation, useSingleRolesQuery, useDeleteGroupMutation } = userApiSlice;

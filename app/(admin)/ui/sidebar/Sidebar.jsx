@@ -64,35 +64,24 @@ const Sidebar = () => {
                 </div>
             <div className="mt-8">
                 {Menus.map((menu) => {
-                     if (menu.title === 'Users' && (!userInfo || !['admin', 'superAdmin', 'R.O.A'].includes(userInfo.data.user.role))) {
-                        return null;
-                      }
-
-                      if (menu.title === 'Emailing' && (!userInfo || !['admin', 'superAdmin'].includes(userInfo.data.user.role))) {
-                        return null;
-                      }
-
-                      if (menu.title === 'Dashboard' && (!userInfo || !['admin', 'superAdmin'].includes(userInfo.data.user.role))) {
-                        return null;
-                      }
                     return (
                         <div key={menu.id || index} className='mt-2' title={menu.title}>
-                            <Link href={menu.path} className={`flex items-center justify-start gap-4 py-3 px-2 font-bold ${isActive(menu.path)? 'bg-orange-100 px-2  rounded-lg text-orange-300': ''}  cursor-pointer rounded-lg `}>
-                                <span className="text-xl text-orange-300">
+                            <Link href={menu.path} className={`flex items-center justify-start gap-4 py-3 px-2  ${isActive(menu.path)? 'bg-orange-100 px-2  rounded-lg text-orange-500': ''}  cursor-pointer rounded-lg `}>
+                                <span className="text-xl text-orange-500">
                                     {menu.icon}
                                 </span>
-                                <span className='text-sm text-gray-500'>
+                                <span className='text-sm'>
                                     {menu.title}
                                 </span>
                             </Link>
                         </div>
                     )
                 })}
-                <div  className="flex items-center justify-start gap-4 py-4 px-2 font-bold bg-gray-200 dark:bg-slate-800 rounded-lg mt-8 cursor-pointer" onClick={handleLogout} >
+                <div  className="flex items-center justify-start gap-4 py-4 px-2  bg-gray-200 dark:bg-slate-800 rounded-lg mt-8 cursor-pointer" onClick={handleLogout} >
                     <span className="text-xl text-orange-300">
                         <CiLogout />
                     </span>
-                    <span className={`${!open && "hidden"} text-sm text-gray-500`}>
+                    <span className={`${!open && "hidden"} text-sm `}>
                         Log out
                     </span>
                 </div>

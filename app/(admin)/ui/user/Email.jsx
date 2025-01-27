@@ -98,12 +98,16 @@ const Email = () => {
                                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                                 'application/vnd.ms-excel',
+                                'application/xlsx',
+                                'application/xls',
+                                'application/docs',
                                 'image/jpeg',
                                 'image/png',
                                 'image/gif',
                                 'image/JPG'
                             ];
-                            if (!allowedTypes.includes(file.type)) {
+
+                            if (!file || !allowedTypes.includes(file.type)) {
                                 errors.attachment = 'Only .pdf, .xlsx, .xls, .docx, and image files are allowed';
                             }
                         }
@@ -164,9 +168,9 @@ const Email = () => {
                                         id="attachment"
                                         accept=".pdf,.xlsx,.docx,.jpeg,.jpg,.png,.xls,.gif"
                                         onChange={(event) => {
-                                            const file = event.currentTarget.files[0];
-                                            setFile(file);
-                                            setFieldValue("attachment", file);
+                                            const selectedFile = event.currentTarget.files[0] || null; // Ensure null if no file selected
+                                            setFile(selectedFile);
+                                            setFieldValue("attachment", selectedFile);
                                         }}
                                         className='p-2 w-full outline-none dark:bg-slate-800 border border-solid border-slate-300 text-gray-500 h-12 bg-transparent'
                                     />

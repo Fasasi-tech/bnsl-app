@@ -25,7 +25,7 @@ const AuditPage = () => {
     }
 
     if (error){
-        return <p>{error?.data?.message}</p>
+        return <p>{error?.message}</p>
     }
 
 
@@ -68,8 +68,7 @@ const AuditPage = () => {
                 <TableRow>
                     <TableHead>User</TableHead>
                     <TableHead>Action</TableHead>
-                    <TableHead>Updated By</TableHead>
-                    <TableHead>TimeStamp</TableHead>
+                    <TableHead>Date Updated</TableHead>
                     <TableHead>Details</TableHead>
                 </TableRow>
             </TableHeader>
@@ -79,19 +78,12 @@ const AuditPage = () => {
                         <TableRow key={index}>
                             <TableCell className='px-2 w-1/3'>
                             <div className='flex items-center gap-2'>
-                                <Avatar>
-                                <AvatarImage src={i?.previousDetails.logo?.url} alt='avatar'/>
-                                <AvatarFallback className='bg-orange-300'></AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <p className='text-gray-500  font-medium'>{`${i.previousDetails.name}`}</p>
-                                    {/* <p className='text-gray-500  font-medium'>{` ${i.previousDetails.vendor_class}`}</p> */}
-                                </div>
+                                <p className='text-gray-500  font-medium'>{`${i.previousDetails.businessName}`}</p>
+                                {/* <p className='text-gray-500  font-medium'>{` ${i.previousDetails.vendor_class}`}</p> */}
                             </div>
                             </TableCell>
                             <TableCell className={`w-1/6 text-sm font-bold text-blue-700 ${i.action==='DELETE'? 'text-red-600':'text-blue-700'}`}>{i.action ==='PATCH' ?'EDIT': i.action ==='DELETE'? 'DELETE':'' }</TableCell>
-                            <TableCell className="w-1/6 text-sm text-gray-500  font-medium'">{i.updatedBy?.email}</TableCell>
-                            <TableCell className="w-1/6 text-sm text-gray-500  font-medium'">{dateString(i.timeStamp)}</TableCell>
+                            <TableCell className="w-1/6 text-sm text-gray-500  font-medium'">{dateString(i?.previousDetails.updatedAt)}</TableCell>
                             <TableCell className="w-1/6 text-sm text-gray-500  font-medium'"><AuditLog id={i._id} /></TableCell>
                             
                         </TableRow>

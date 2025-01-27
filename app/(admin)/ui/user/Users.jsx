@@ -7,13 +7,14 @@ import { Button } from '@/components/ui/button';
 import classNames from 'classnames';
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar'
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
+import {Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectTrigger,SelectValue} from "@/components/ui/select"
 import { Input } from '@/components/ui/input';
 import { BiExport } from "react-icons/bi";
 import debounce from 'lodash/debounce';
 import BtnTrigger from './BtnTrigger';
 import Actions from './Actions';
 import { useSelector } from 'react-redux';
+import { useGroupQuery } from '@/app/ui/utils/slices/usersApiSlice';
   
 
 
@@ -24,19 +25,20 @@ const Users = () => {
     const ITEMS_PER_PAGE = 10;
 
     const [page, setPage] = useState(1)
-    const [role, setRole] = useState('');
+    const [group, setGroup] = useState('');
     const [sort, setSort] = useState('')
     const [search,  setSearch] = useState('')
     const [active, setActive] = useState(undefined);
-    const {data:users, isLoading, isFetching, error} = useListUsersQuery({ page, limit: ITEMS_PER_PAGE, role, sort, search, active})
+    const {data:users, isLoading, isFetching, error} = useListUsersQuery({ page, limit: ITEMS_PER_PAGE, group, sort, search, active})
     const [exportUser, {isLoading:loadExcel,  data} ] = useExportUserMutation()
+    const {data:groups, isLoading:loadingGroup, error:loadingError} = useGroupQuery()
 
     if (isLoading){
         return <Loader/>
     }
 
     if (error){
-        return ( <p>{error?.data?.message}</p>)
+        return ( <p>{error?.message}</p>)
     }
     
     const handleClick = async () => {
@@ -54,14 +56,7 @@ const Users = () => {
         }
       };
 
-    //   useEffect(() => {
-    //     setIsClient(true);
-    //   }, []);
-    
-    //   if (!isClient) {
-    //     return null; // Or return a loading spinner, etc.
-    //   }
-
+ 
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -70,8 +65,8 @@ const Users = () => {
       };
       
    
-    const handleRoleChange = (value) => {
-        setRole(value);
+    const handleGroupChange = (value) => {
+        setGroup(value);
         setPage(1); // Reset to the first page when the role changes
     };
 
@@ -82,10 +77,10 @@ const Users = () => {
 
     const clearFilter =()=>{
         setSort('')
-        setRole('')
+        setGroup('')
         setPage(1)
         setSearch('')
-        setActive(false)
+        setActive(true)
     }
 
     const handleChange = (e) => {
@@ -109,17 +104,26 @@ const Users = () => {
         <div>
             <p className='font-medium text-lg font-sans text-gray-500'>Search Filters</p>
             <div className=' flex flex-wrap md:flex-nowrap  pt-8 pb-8 border-b border-gray-200 items-center gap-4 w-full'>
-                <Select onValueChange={handleRoleChange} value={role}>
+                <Select onValueChange={handleGroupChange} value={group}>
                     <SelectTrigger className="w-full md:w-1/4 ">
                         <SelectValue placeholder="Role" />
                     </SelectTrigger>
                     <SelectContent>
-                    <SelectItem value="none">Select a role</SelectItem> 
-                        <SelectItem value="superAdmin">Super Admin</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="vendor">Vendor</SelectItem>
-                        <SelectItem value="user">User</SelectItem>
-                        
+                        <SelectGroup>
+                        <SelectLabel>Role</SelectLabel>
+                            {
+                            loadingGroup?(
+                                <Loader />
+                            ): loadingError ? (
+                                <p>{loadingError.message}</p>
+                            ):
+                            groups?.data?.user?.map((i, index)=>(
+                                <SelectItem key={index} value={i._id}>
+                                {i.name}
+                                </SelectItem>
+                            ))
+                            }
+                        </SelectGroup>   
                     </SelectContent>
                 </Select>
                 <Select value={String(active)} onValueChange={handleActiveChange}>
@@ -163,43 +167,36 @@ const Users = () => {
             >
                 <p className='flex text-white items-center font-bold  gap-2' onClick={handleClick}>< BiExport className='text-white text-lg font-black '/>{isLoading? <p>Loading ...</p>:<p>Export</p>} </p>
             </Button>
-                { userInfo && (userInfo?.data?.user?.role==='admin'|| userInfo?.data?.user?.role==='superAdmin') ? <Button
+                <Button
                 variant="destructive"
                 >
                  <BtnTrigger />
-            </Button>:''}
+                </Button>
             
         </div>
        
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead className='w-1/3'>User</TableHead>
+                    <TableHead className='w-1/6'>Email</TableHead>
                     <TableHead className='w-1/6'>Role</TableHead>
                     <TableHead className='w-1/6'>Status</TableHead>
+                    <TableHead className='w-1/6'>Super Admin</TableHead>
+                    {/* <TableHead className='w-1/6'>Permissions</TableHead> */}
                     <TableHead className='w-1/6'>Created At</TableHead>
-                    {userInfo && (userInfo?.data?.user?.role==='admin'|| userInfo?.data?.user?.role==='superAdmin') ?<TableHead className='w-1/6'>Actions</TableHead>:''}
+                    <TableHead className='w-1/6'>Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {users.data.user.getUsers.map((i, index) =>(
                 <TableRow key={index}>
-                    <TableCell  className='px-2 w-1/3'>
-                        <div className='flex items-center gap-2'>
-                            <Avatar>
-                            <AvatarImage src={i?.image?.url} alt='avatar'/>
-                            <AvatarFallback>{`${i?.firstName?.toUpperCase().slice(0,1)}${i?.lastName?.toUpperCase().slice(0,1)}`}</AvatarFallback>
-                            </Avatar>
-                            <div>
-                                    <p className='text-gray-500  font-medium'>{`${i.firstName} ${i.lastName}`}</p>
-                                    <p className='text-gray-400 text-sm'>{i.email}</p>
-                            </div>
-                        </div>
-                    </TableCell>
-                    <TableCell className="w-1/6 text-sm text-gray-400">{i.role}</TableCell>
-                    <TableCell className='w-1/6 '><p className={`inline-block text-sm px-2 rounded-sm ${i.active===true ?'bg-orange-100 text-orange-300 ':'bg-red-100 text-red-300'}`}>{i.active === true ? 'Active' :'inActive'}</p></TableCell>
-                    <TableCell className="w-1/6 text-sm text-gray-400">{formatDate(i.createdAt)}</TableCell>
-                    {userInfo && (userInfo?.data?.user?.role==='admin'|| userInfo?.data?.user?.role==='superAdmin') ?<TableCell className="w-1/6 text-sm text-gray-400"><Actions userId={i._id}/></TableCell>:''}
+                    <TableCell className='text-sm'>{i.email}</TableCell>
+                    <TableCell className=" text-sm">{i?.group?.name}</TableCell>
+                    <TableCell className='text-sm'><p className={`inline-block text-sm px-2 rounded-sm ${i.active===true ?'bg-orange-100 text-orange-300 ':'bg-red-100 text-red-300'}`}>{i.active === true ? 'Active' :'inActive'}</p></TableCell>
+                    <TableCell className='text-sm '>{i.superAdmin === !!true ? 'True':'False'}</TableCell>
+                    {/* <TableCell className=" text-sm ">{i.permissions}</TableCell> */}
+                    <TableCell className=" text-sm ">{formatDate(i.createdAt)}</TableCell>
+                    <TableCell className=" text-sm"><Actions userId={i._id}/></TableCell>
                 </TableRow>
                 )) }
             </TableBody> 

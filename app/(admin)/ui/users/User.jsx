@@ -13,7 +13,7 @@ const User = () => {
   }
 
   if (error){
-    return <p>{error?.data?.message}</p>
+    return <p>{error?.message}</p>
   }
 
   
@@ -30,8 +30,6 @@ const User = () => {
         <TableHeader>
           <TableRow>
             <TableHead className='py-8'>User</TableHead>
-            <TableHead className='py-8'>First Name</TableHead>
-            <TableHead className='py-8'>Last Name</TableHead>
             <TableHead className='py-8'>Role</TableHead>
             <TableHead className='py-8'>Status</TableHead>
             <TableHead className='py-8'>Created At</TableHead>
@@ -40,16 +38,9 @@ const User = () => {
         <TableBody>
            {data.data.user.map((i, index) =>(
               <TableRow key={index}>
-                <TableCell className='py-8'>
-                  <Avatar>
-                    <AvatarImage src={i?.image?.url} alt='avatar'/>
-                    <AvatarFallback>{`${i?.firstName?.toUpperCase().slice(0,1)} ${i?.lastName?.toUpperCase().slice(0,1)}`}</AvatarFallback>
-                  </Avatar>
-                </TableCell>
-                <TableCell className='py-8'>{i.firstName}</TableCell>
-                <TableCell className='py-8'>{i.lastName}</TableCell>
-                <TableCell className='py-8'>{i.role}</TableCell>
-                <TableCell className='py-8'>{i.active}</TableCell>
+                <TableCell className='py-8'>{i.email}</TableCell>
+                <TableCell className='py-8'>{i?.group?.name}</TableCell>
+                <TableCell className='py-8'>{i.active ? 'True': 'False'}</TableCell>
                 <TableCell className='py-8'>{formatDate(i.createdAt)}</TableCell>
              </TableRow>
            ))}

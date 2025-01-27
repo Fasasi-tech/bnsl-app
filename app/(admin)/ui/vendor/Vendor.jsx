@@ -10,7 +10,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import classNames from 'classnames';
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
+import VendorTrigger from './VendorTrigger';
+import { useCategoriesQuery } from '@/app/ui/utils/slices/usersApiSlice';
+import {Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectTrigger,SelectValue} from "@/components/ui/select"
 
 const Vendor = () => {
     const ITEMS_PER_PAGE = 10;
@@ -20,13 +22,14 @@ const Vendor = () => {
     const [sort, setSort] = useState('')
     const [vendor_class, setVendorClass] = useState('')
     const {data:users, isLoading, isFetching, error} = useVendorsQuery({page, limit:ITEMS_PER_PAGE, search, vendor_class})
- 
+    const [isEditing, setIsEditing] = useState(false)
+    const {data:categories, isLoading:loadingCategories, error:loadingError} = useCategoriesQuery()
     if (isLoading){
         return <Loader />
     }
 
     if (error){
-        return <p className='text-orange-300 font-semibold '>{`${error?.data?.message}`}</p>
+        return <p className='text-orange-300 font-semibold '>{`${error?.message}`}</p>
     }
 
     const formatDate = (dateString) => {
@@ -64,6 +67,15 @@ const Vendor = () => {
     }
 
     const totalPages= Math.ceil(users.data.user.result / ITEMS_PER_PAGE)
+
+    if (isEditing){
+        return (
+            <div>
+                <VendorTrigger isEditing={setIsEditing} />
+            </div>
+        )
+    }
+
   return (
     <div className='bg-white dark:bg-slate-800 p-4 rounded-lg shadow-lg overflow-x-auto'>
         <div>
@@ -84,13 +96,18 @@ const Vendor = () => {
                         <SelectValue placeholder="category" />
                     </SelectTrigger>
                     <SelectContent>
-                    <SelectItem value="none">Select a category</SelectItem> 
-                        <SelectItem value="Feed">Feed</SelectItem>
-                        <SelectItem value="Food">Food</SelectItem>
-                        <SelectItem value="Vet">Vet</SelectItem>
-                        <SelectItem value="Service">Service</SelectItem>
-                        
-                    </SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Categories</SelectLabel>
+                                {
+                                    loadingCategories ?(<Loader />):
+                                    loadingError ? (<p>
+                                        {loadingError.message}
+                                    </p>) : categories?.data?.user?.map((i, index) =>(
+                                        <SelectItem key={index} value={i._id}>{i.name}</SelectItem> 
+                                    ))      
+                               }  
+                        </SelectGroup>
+                        </SelectContent>
                 </Select>
                 <div className='md:w-1/4 w-full'>
                     <Button variant='destructive' className='w-full lg:w-[50%] ' onClick={clearFilter}>Clear Filter</Button>
@@ -109,6 +126,25 @@ const Vendor = () => {
                 onChange={handleChange}
             />
         </form>
+        <Button
+            variant="destructive"
+            onClick={() => setIsEditing(true)} // Open VendorTrigger
+        >
+                Create Vendor
+        </Button>
+
+        {isEditing && (
+            <div className="mt-4">
+                <VendorTrigger />
+                <Button
+                    variant="outline"
+                    onClick={() => setIsEditing(false)} // Close the VendorTrigger
+                    className="mt-2"
+                >
+                    Close
+                </Button>
+            </div>
+        )}
            
             
     </div>
@@ -118,7 +154,6 @@ const Vendor = () => {
             <TableRow>
                 <TableHead className='w-1/6'>Logo</TableHead>
                 <TableHead className='w-1/6'>Business Name</TableHead>
-                <TableHead className='w-1/6'>Category</TableHead>
                 <TableHead className='w-1/6'>Email</TableHead>
                 <TableHead className='w-1/6'>Created At</TableHead>
                 <TableHead className='w-1/6'>Actions</TableHead>
@@ -135,10 +170,9 @@ const Vendor = () => {
                         </Avatar>
                     </div>
                 </TableCell>
-                <TableCell className="w-1/6 text-sm text-gray-400">{i.name}</TableCell>
-                <TableCell className="w-1/6 text-sm text-gray-400">{i.vendor_class}</TableCell>
-                <TableCell className="w-1/6 text-sm text-gray-400">{i.user.email}</TableCell>
-                <TableCell className="w-1/6 text-sm text-gray-400">{formatDate(i.createdAt)}</TableCell>
+                <TableCell className="w-1/6 text-sm">{i.businessName}</TableCell>
+                <TableCell className="w-1/6 text-sm">{i.user.email}</TableCell>
+                <TableCell className="w-1/6 text-sm">{formatDate(i.createdAt)}</TableCell>
                 <TableCell><VendorActions userId={i._id}/></TableCell>
       
             </TableRow>

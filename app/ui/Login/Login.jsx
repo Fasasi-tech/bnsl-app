@@ -32,24 +32,37 @@ const Login = () => {
       const {userInfo} = useSelector((state) => state.auth)
 
        
+      const userInfoResult = userInfo?.data?.user?.group?.permission
+
+      console.log(userInfoResult, 'Permissions');
+      console.log(userInfo, 'userInfo')
+
+      const funcRoles = (contentType, codename) =>{
+        return userInfoResult?.some((perm) => perm.contentType ===contentType && perm.codename === codename)
+        }
+      
 
         useEffect(() => {
-            if (userInfo?.data?.user?.role ==='vendor') {
-              router.push('/create-vendor');
+            if (funcRoles("Customer", "Read_self") ) {
+              router.push('/profile');
             }
 
-            else if (userInfo?.data?.user?.role ==='superAdmin'|| userInfo?.data?.user?.role ==='R.O.A' ||userInfo?.data?.user?.role ==='admin'){
-                router.push('/profile')
+            // else if (userInfo?.data?.user?.superAdmin ===!!true || userInfo?.data?.user?.role ==='R.O.A' ||userInfo?.data?.user?.role ==='admin'){
+            //     router.push('/profile')
+            // }
+
+            else if (userInfo?.data?.user?.superAdmin ===!!true){
+                router.push('/dashboard');
             }
 
-            else if(userInfo?.data?.user?.role ==='user'){
-                router.push('/products')
+            else if(funcRoles("Vendor", "Read")){
+                router.push('/vendor-profile')
             }
 
             else{
                 router.push('/')
             }
-          }, [router, userInfo]);
+          }, [router, userInfoResult, userInfo]);
 
       const handleSubmit = async (values, {setSubmitting, resetForm}) =>{
         try {
