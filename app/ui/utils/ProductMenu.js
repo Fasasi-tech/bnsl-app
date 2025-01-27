@@ -39,11 +39,11 @@ export const Menus =[
         "path":'/vendor-password'
 
     },
-    {
-        "id": 6,
-        "title":"Create Vendor",
-        "icon":<MdDashboard />,
-        "path":'/create-vendor'
+    // {
+    //     "id": 6,
+    //     "title":"Create Vendor",
+    //     "icon":<MdDashboard />,
+    //     "path":'/create-vendor'
 
-    }
+    // }
 ]
